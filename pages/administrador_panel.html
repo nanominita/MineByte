@@ -101,7 +101,7 @@
           </div>
           <div class="estadistica-contenido-panel">
             <h3>Sensores operando</h3>
-            <div class="dato" id="sensores-operando">0</div>
+            <div class="dato" id="sensores-operando">4</div>
           </div>
         </div>
         <div class="estadistica-panel alertas">
@@ -180,6 +180,17 @@
               <div class="sensor-tiempo-panel">Actualizado hace 3 min</div>
             </div>
           </div>
+
+          <div class="sensor-card-panel movimiento">
+            <div class="sensor-icon-panel">
+              <i class="fas fa-running"></i>
+            </div>
+            <div class="sensor-info-panel">
+              <div class="sensor-nombre-panel">Sensor de Movimiento</div>
+              <div class="sensor-valor-panel">Normal</div>
+              <div class="sensor-tiempo-panel">Actualizado hace 0 min</div>
+            </div>
+          </div>
         </section>
       </section>
 
@@ -201,14 +212,12 @@
                 <th>Mina</th>
                 <th>Tipo</th>
                 <th>Nivel</th>
-                <th>Estado</th>
-                <th>Fecha y hora</th>
                 <th>Acciones</th>
               </tr>
             </thead>
             <tbody id="tabla-alertas-body">
               <tr>
-                <td colspan="8" class="text-center p-4">Cargando alertas...</td>
+                <td colspan="6" class="text-center p-4">Cargando alertas...</td>
               </tr>
             </tbody>
           </table>
@@ -216,7 +225,8 @@
       </section>
     </main>
   </div>
- <script>
+
+<script>
   const nombre = localStorage.getItem("nombreUsuario") || "Usuario";
   const rol = localStorage.getItem("tipoCuenta") || "Sin rol";
 
@@ -253,9 +263,7 @@ const rtdb = getDatabase(app);
 
 const idUsuario = localStorage.getItem("idUsuario");
 
-/* ===========================
-      MINAS ACTIVAS
-=========================== */
+/* =========================== MINAS ACTIVAS =========================== */
 async function cargarMinas() {
   const refMinas = collection(db, "minas");
   const snap = await getDocs(refMinas);
@@ -265,10 +273,8 @@ async function cargarMinas() {
 
   snap.forEach(doc => {
     const data = doc.data();
-
     if (data.id_administrador == idUsuario && data.status == "Activa") {
       total++;
-
       const option = document.createElement("option");
       option.value = data.nombre;
       option.textContent = data.nombre;
@@ -279,9 +285,48 @@ async function cargarMinas() {
   document.getElementById("minas-activas").textContent = total;
 }
 
-/* ===================================
-        SENSORES EN TIEMPO REAL
-=================================== */
+/* =========================== LLENAR TABLA DE MINAS =========================== */
+async function cargarTablaMinas() {
+  const refMinas = collection(db, "minas");
+  const snap = await getDocs(refMinas);
+
+  const tbody = document.getElementById("tabla-alertas-body");
+  tbody.innerHTML = "";
+
+  let existe = false;
+
+  snap.forEach(doc => {
+    const data = doc.data();
+    if (data.id_administrador == idUsuario) {
+      existe = true;
+      const fila = `
+        <tr>
+          <td>${doc.id}</td>
+          <td>${data.categoria}</td>
+          <td>${data.nombre}</td>
+          <td>${data.status}</td>
+          <td>${data.ubicacion}</td>
+          <td>
+            <button class="btn btn-outline">Ver</button>
+          </td>
+        </tr>
+      `;
+      tbody.insertAdjacentHTML("beforeend", fila);
+    }
+  });
+
+  if (!existe) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6" class="text-center p-4">
+          No hay minas registradas.
+        </td>
+      </tr>
+    `;
+  }
+}
+
+/* =========================== SENSORES EN TIEMPO REAL =========================== */
 function actualizarTarjetasSensores() {
   const sensoresRef = ref(rtdb, "/sensores");
 
@@ -290,50 +335,61 @@ function actualizarTarjetasSensores() {
 
     const temp = sensores.temperatura;
     if (temp) {
+      const valorTemp = temp.nivel ?? temp.valor ?? temp.temperatura ?? "";
       document.querySelector(".temperatura .sensor-valor-panel").textContent =
-        `${temp.nivel ?? temp.valor ?? ""}`;
+        `${valorTemp}${valorTemp !== "" ? "°C" : ""}`;
       document.querySelector(".temperatura .sensor-tiempo-panel").textContent =
-        `Actualizado ${temp.timestamp}`;
+        `Actualizado ${temp.timestamp ?? ""}`;
     }
 
-    if (temp) {
+    const hum = sensores.humedad;
+    if (hum) {
+      const valorHum = hum.nivel ?? hum.valor ?? hum.humedad ?? "";
       document.querySelector(".humedad .sensor-valor-panel").textContent =
-        `${temp.humedad ?? ""}%`;
+        `${valorHum}${valorHum !== "" ? "%" : ""}`;
       document.querySelector(".humedad .sensor-tiempo-panel").textContent =
-        `Actualizado ${temp.timestamp}`;
+        `Actualizado ${hum.timestamp ?? ""}`;
     }
 
     const agua = sensores.agua;
     if (agua) {
+      const valorAgua = agua.distancia ?? agua.nivel ?? "";
       document.querySelector(".agua .sensor-valor-panel").textContent =
-        `${agua.distancia}%`;
+        `${valorAgua}${valorAgua !== "" ? "%" : ""}`;
       document.querySelector(".agua .sensor-tiempo-panel").textContent =
-        `Actualizado ${agua.timestamp}`;
+        `Actualizado ${agua.timestamp ?? ""}`;
     }
 
     const gas = sensores.metano;
     if (gas) {
+      const valorGas = gas.nivel ?? gas.valor ?? "";
       document.querySelector(".gas .sensor-valor-panel").textContent =
-        `${gas.nivel} ppm`;
+        `${valorGas}${valorGas !== "" ? " ppm" : ""}`;
       document.querySelector(".gas .sensor-tiempo-panel").textContent =
-        `Actualizado ${gas.timestamp}`;
+        `Actualizado ${gas.timestamp ?? ""}`;
+    }
+
+    const mov = sensores.movimiento;
+    if (mov) {
+      const valorMov = typeof mov.valor !== "undefined" ? (mov.valor ? "Detectado" : "Normal") : (mov.valor ?? "");
+      document.querySelector(".movimiento .sensor-valor-panel").textContent =
+        `${valorMov}`;
+      document.querySelector(".movimiento .sensor-tiempo-panel").textContent =
+        `Actualizado ${mov.timestamp ?? ""}`;
     }
   });
 }
 
-/* ===================================
-        ALERTAS EN TIEMPO REAL
-=================================== */
+/* =========================== ALERTAS EN TIEMPO REAL =========================== */
 function escucharAlertas() {
-  const sensores = ref(rtdb, "/sensores");
+  const sensoresRef = ref(rtdb, "/sensores");
 
-  onValue(sensores, snapshot => {
+  onValue(sensoresRef, snapshot => {
     const datos = snapshot.val() || {};
     let total = 0;
 
     for (const sensor in datos) {
       const s = datos[sensor];
-
       if (
         s.alerta ||
         s.alerta_agua ||
@@ -350,17 +406,16 @@ function escucharAlertas() {
   });
 }
 
-/* INICIO */
+/* =========================== INICIO =========================== */
 window.addEventListener("DOMContentLoaded", () => {
   cargarMinas();
+  cargarTablaMinas();
   escucharAlertas();
   actualizarTarjetasSensores();
 
-  // AUTO-REFRESH 5s
   setInterval(actualizarTarjetasSensores, 5000);
 });
 </script>
-
 
 </body>
 </html>
