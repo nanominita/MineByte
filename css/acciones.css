@@ -1,0 +1,318 @@
+/* ========== ESTILOS ESPECÍFICOS PARA GESTIÓN DE ACCIONES ========== */
+.filtros-acciones {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.estadisticas-acciones {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.estadistica-accion {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.estadistica-icono-accion {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    font-size: 20px;
+}
+
+.estadistica-total .estadistica-icono-accion {
+    background-color: rgba(47, 94, 105, 0.1);
+    color: var(--primary-color);
+}
+
+.estadistica-completadas .estadistica-icono-accion {
+    background-color: rgba(39, 174, 96, 0.1);
+    color: var(--success);
+}
+
+.estadistica-pendientes .estadistica-icono-accion {
+    background-color: rgba(243, 156, 18, 0.1);
+    color: var(--warning);
+}
+
+.estadistica-contenido-accion h3 {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 5px;
+}
+
+.estadistica-contenido-accion .dato {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* Lista de acciones - MODIFICADO PARA OCUPAR TODO EL ANCHO */
+.lista-acciones {
+    display: grid;
+    grid-template-columns: 1fr; /* Una sola columna que ocupa todo el ancho */
+    gap: 15px;
+    width: 100%;
+}
+
+.accion-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-left: 4px solid;
+    display: grid;
+    grid-template-columns: 1fr auto auto; /* Distribución en columnas */
+    gap: 15px;
+    align-items: start;
+}
+
+.accion-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.accion-card.alta {
+    border-left-color: var(--danger);
+}
+
+.accion-card.media {
+    border-left-color: var(--warning);
+}
+
+.accion-card.baja {
+    border-left-color: var(--info);
+}
+
+/* Contenido principal de la acción */
+.accion-contenido {
+    grid-column: 1;
+}
+
+.accion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.accion-id {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 5px;
+}
+
+.accion-descripcion {
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.accion-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color);
+}
+
+.accion-fecha {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+/* Estados y prioridades - ahora en columnas separadas */
+.accion-estados {
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 120px;
+}
+
+.prioridad-accion {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.accion-card.alta .prioridad-accion {
+    background-color: rgba(231, 76, 60, 0.1);
+    color: var(--danger);
+}
+
+.accion-card.media .prioridad-accion {
+    background-color: rgba(243, 156, 18, 0.1);
+    color: var(--warning);
+}
+
+.accion-card.baja .prioridad-accion {
+    background-color: rgba(52, 152, 219, 0.1);
+    color: var(--info);
+}
+
+.estado-accion {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.estado-pendiente {
+    background-color: rgba(243, 156, 18, 0.1);
+    color: var(--warning);
+}
+
+.estado-progreso {
+    background-color: rgba(52, 152, 219, 0.1);
+    color: var(--info);
+}
+
+.estado-completada {
+    background-color: rgba(39, 174, 96, 0.1);
+    color: var(--success);
+}
+
+/* Acciones - ahora en columna separada */
+.accion-acciones {
+    grid-column: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 80px;
+}
+
+/* Modal de acciones */
+.modal-accion .form-group {
+    margin-bottom: 20px;
+}
+
+.modal-accion textarea.form-control {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Responsive para acciones */
+@media (max-width: 1024px) {
+    .accion-card {
+        grid-template-columns: 1fr auto; /* Dos columnas en tablets */
+        grid-template-rows: auto auto;
+    }
+    
+    .accion-contenido {
+        grid-column: 1;
+        grid-row: 1;
+    }
+    
+    .accion-estados {
+        grid-column: 2;
+        grid-row: 1;
+    }
+    
+    .accion-acciones {
+        grid-column: 1 / span 2;
+        grid-row: 2;
+        flex-direction: row;
+        justify-content: flex-end;
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .filtros-acciones {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .accion-card {
+        grid-template-columns: 1fr; /* Una columna en móviles */
+        grid-template-rows: auto auto auto;
+        gap: 10px;
+    }
+    
+    .accion-contenido {
+        grid-column: 1;
+        grid-row: 1;
+    }
+    
+    .accion-estados {
+        grid-column: 1;
+        grid-row: 2;
+        flex-direction: row;
+        justify-content: flex-start;
+        min-width: auto;
+    }
+    
+    .accion-acciones {
+        grid-column: 1;
+        grid-row: 3;
+        flex-direction: row;
+        justify-content: flex-end;
+        min-width: auto;
+    }
+    
+    .accion-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .accion-footer {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .estadisticas-acciones {
+        grid-template-columns: 1fr;
+    }
+    
+    .accion-estados {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .prioridad-accion,
+    .estado-accion {
+        text-align: left;
+        padding: 4px 8px;
+    }
+}
+.modo-oscuro-toggle-sidebar {
+    padding: 12px 16px;
+    border-top: 1px solid var(--border-color);
+}
+
+.modo-oscuro-toggle-sidebar .nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    color: var(--text-secondary);
+}
+
+.modo-oscuro-toggle-sidebar .switch {
+    margin-left: auto;
+}

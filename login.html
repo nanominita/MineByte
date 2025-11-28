@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iniciar Sesión - MINEBYTE</title>
+  <link rel="stylesheet" href="css/login.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+
+<body class="pagina-login">
+  <div class="contenedor-login">
+    <div class="login-contenido">
+
+      <div class="login-lateral">
+        <div class="login-logo">
+          <div class="logo-icono">
+            <img src="Logo bodrio.png" alt="MINEBYTE" />
+          </div>
+          <h2>MINEBYTE</h2>
+        </div>
+
+        <div class="login-info">
+          <h3>Sistema de Seguridad Minera</h3>
+          <p>Monitoreo en tiempo real, alertas preventivas y control remoto para proteger a los trabajadores.</p>
+
+          <div class="caracteristicas-login">
+            <div class="caracteristica">
+              <i class="fas fa-shield-alt"></i>
+              <span>Seguridad garantizada</span>
+            </div>
+            <div class="caracteristica">
+              <i class="fas fa-bolt"></i>
+              <span>Tiempo real</span>
+            </div>
+            <div class="caracteristica">
+              <i class="fas fa-users"></i>
+              <span>Múltiples roles</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FORMULARIO -->
+      <div class="login-formulario">
+        <div class="formulario-contenido">
+          <h2>Iniciar Sesión</h2>
+          <p>Ingresa tus credenciales para acceder al sistema</p>
+
+          <form id="form-login">
+            <div class="campo-formulario">
+              <label for="email">Correo electrónico</label>
+              <input type="email" id="email" required />
+              <i class="fas fa-envelope icono-campo"></i>
+            </div>
+            
+            <div class="campo-formulario">
+              <label for="password">Contraseña</label>
+              <input type="password" id="password" required />
+              <i class="fas fa-lock icono-campo"></i>
+            </div>
+
+            <button type="submit" class="btn btn-primario btn-login" id="btnlogin">
+              <i class="fas fa-sign-in-alt"></i>
+              Iniciar Sesión
+            </button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+<!-- Firebase Login Script para Minebyte51m -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
+  import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyC7YUiNYU2I4FzJL2IJzpdybFc7iD9ZYVw",
+    authDomain: "minebyte51m.firebaseapp.com",
+    projectId: "minebyte51m",
+    storageBucket: "minebyte51m.firebasestorage.app",
+    messagingSenderId: "612192107615",
+    appId: "1:612192107615:web:6c374d21d070496779afea",
+    measurementId: "G-TB1JGW4CX6"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const loginForm = document.getElementById("form-login");
+
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    if (!email || !password) {
+      alert("❌ Por favor completa ambos campos.");
+      return;
+    }
+
+    try {
+      const q = query(
+        collection(db, "usuarios"),
+        where("correo", "==", email),
+        where("contraseña", "==", password)
+      );
+
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.empty) {
+        alert("❌ Usuario o contraseña incorrectos.");
+        return;
+      }
+
+      const userData = querySnapshot.docs[0].data();
+      const tipo = userData.tipo?.toLowerCase() || "";
+// ✅ GUARDAR DATOS EN LOCALSTORAGE
+localStorage.setItem("nombreUsuario", userData.nombre);
+localStorage.setItem("apellidoPaterno", userData["apellido paterno"]);
+localStorage.setItem("apellidoMaterno", userData["apellido materno"]);
+localStorage.setItem("emailUsuario", userData.correo);
+localStorage.setItem("tipoCuenta", userData.rol);
+localStorage.setItem("descripcionRol", userData.descripcion_rol);
+localStorage.setItem("empresa", userData.empresa);
+localStorage.setItem("idUsuario", userData.id_usuario);
+localStorage.setItem("telefonoUsuario", userData.telefono || "");
+
+      // ✅ Redirigir según tipo
+      if (tipo === "admin" || tipo === "supervisor") {
+        window.location.href = "panel_admin.html";
+      } else {
+        window.location.href = "pages/administrador_panel.html";
+      }
+
+    } catch (error) {
+      console.error("❌ Error al iniciar sesión:", error);
+      alert("Error de conexión o fallo interno.");
+    }
+  });
+</script>
+
+</body>
+</html>

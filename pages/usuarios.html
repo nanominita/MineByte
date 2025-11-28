@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Usuarios - MINEBYTE</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/usuarios.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Barra lateral -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <div class="logo-text">MINEBYTE</div>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <a href="administrador_panel.html" class="nav-item">
+          <i class="fas fa-tachometer-alt"></i>
+          <span>Panel</span>
+        </a>
+        <a href="minas.html" class="nav-item">
+          <i class="fas fa-hard-hat"></i>
+          <span>Minas</span>
+        </a>
+        <a href="sensores.html" class="nav-item">
+          <i class="fas fa-microchip"></i>
+          <span>Sensores</span>
+        </a>
+        <a href="alertas.html" class="nav-item">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span>Alertas</span>
+        </a>
+        <a href="usuarios.html" class="nav-item active">
+          <i class="fas fa-users"></i>
+          <span>Usuarios</span>
+        </a>
+        <a href="acciones.html" class="nav-item">
+          <i class="fas fa-tasks"></i>
+          <span>Acciones</span>
+        </a>
+        <a href="cuenta.html" class="nav-item">
+          <i class="fas fa-user-cog"></i>
+          <span>Cuenta</span>
+        </a>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <div class="user-avatar" id="avatar-iniciales">JP</div>
+          <div class="user-details">
+            <div class="user-name" id="usuario-nombre">Cargando...</div>
+            <div class="user-role" id="usuario-rol">Cargando...</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+      <div class="dashboard-header">
+        <div>
+          <h1>Gestión de Usuarios</h1>
+          <p class="text-secondary">Administra usuarios y permisos del sistema</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-primary" id="btn-agregar-usuario">
+            <i class="fas fa-plus mr-2"></i>
+            Agregar Usuario
+          </button>
+          <button class="btn btn-outline" onclick="cargarUsuarios()">
+            <i class="fas fa-sync-alt mr-2"></i>
+            Actualizar
+          </button>
+        </div>
+      </div>
+
+      <div class="card p-4 mb-4">
+        <div class="filtros-usuarios">
+          <div class="buscador-usuarios">
+            <div class="input-wrapper">
+              <i class="fas fa-search input-icon"></i>
+              <input type="text" class="form-control with-icon" id="search-user" placeholder="Buscar usuario...">
+            </div>
+          </div>
+          <select class="form-control" id="filtro-rol">
+            <option value="">Todos los roles</option>
+            <option value="admin">Administrador</option>
+            <option value="supervisor">Supervisor</option>
+            <option value="worker">Trabajador</option>
+          </select>
+          <select class="form-control" id="filtro-estado-usuarios">
+            <option value="">Todos los estados</option>
+            <option value="activo">Activo</option>
+            <option value="inactivo">Inactivo</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table class="tabla-usuarios">
+          <thead>
+            <tr>
+              <th>Usuario</th>
+              <th>Rol</th>
+              <th>Email</th>
+              <th>Mina asignada</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-usuarios-body">
+            <tr>
+              <td colspan="6" class="text-center p-4">Cargando usuarios...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal para agregar/editar usuario -->
+  <div id="user-modal" class="modal-overlay hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="user-modal-title">Agregar Usuario</h3>
+        <button class="close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="user-form">
+          <input type="hidden" id="user-id">
+          
+          <div class="form-group">
+            <label class="form-label" for="user-name">Nombre completo</label>
+            <input type="text" class="form-control" id="user-name" required>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="user-email">Email</label>
+            <input type="email" class="form-control" id="user-email" required>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="user-phone">Teléfono</label>
+            <input type="tel" class="form-control" id="user-phone">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="user-role">Rol</label>
+            <select class="form-control" id="user-role" required>
+              <option value="admin">Administrador</option>
+              <option value="supervisor">Supervisor</option>
+              <option value="worker">Trabajador</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="user-mine">Mina asignada</label>
+            <select class="form-control" id="user-mine">
+              <option value="">Sin asignar</option>
+              <option value="mina1">Mina El Dorado</option>
+              <option value="mina2">Mina La Esperanza</option>
+              <option value="mina3">Mina Carbonífera</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="user-status">Estado</label>
+            <select class="form-control" id="user-status" required>
+              <option value="activo">Activo</option>
+              <option value="inactivo">Inactivo</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" id="cancel-user">Cancelar</button>
+        <button class="btn btn-primary" id="save-user">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
+    import { getFirestore, collection, query, where, getDocs, doc, getDoc, updateDoc, addDoc } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC7YUiNYU2I4FzJL2IJzpdybFc7iD9ZYVw",
+      authDomain: "minebyte51m.firebaseapp.com",
+      projectId: "minebyte51m",
+      storageBucket: "minebyte51m.firebasestorage.app",
+      messagingSenderId: "612192107615",
+      appId: "1:612192107615:web:6c374d21d070496779afea",
+      measurementId: "G-TB1JGW4CX6"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const empresaAdmin = localStorage.getItem("empresa") || "sin_empresa";
+    const nombreAdmin = localStorage.getItem("nombreUsuario") || "Usuario";
+    const rolAdmin = localStorage.getItem("tipoCuenta") || "Sin rol";
+
+    const iniciales = nombreAdmin.split(" ").map(p => p[0]).join("").toUpperCase();
+    document.getElementById("avatar-iniciales").textContent = iniciales;
+    document.getElementById("usuario-nombre").textContent = nombreAdmin;
+    document.getElementById("usuario-rol").textContent = rolAdmin.charAt(0).toUpperCase() + rolAdmin.slice(1);
+
+    async function generarNuevoIdEmpleado() {
+      const empleadosRef = collection(db, "empleados");
+      const snapshot = await getDocs(empleadosRef);
+      let maxId = 0;
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        if (data.id_empleado && typeof data.id_empleado === "number") {
+          maxId = Math.max(maxId, data.id_empleado);
+        }
+      });
+      return maxId + 1;
+    }
+
+    async function cargarUsuarios() {
+      const tablaBody = document.getElementById("tabla-usuarios-body");
+      const estadoFiltro = document.getElementById("filtro-estado-usuarios").value;
+      const rolFiltro = document.getElementById("filtro-rol").value;
+      const busqueda = document.getElementById("search-user").value.toLowerCase();
+      
+      tablaBody.innerHTML = "<tr><td colspan='6' class='text-center p-4'>Cargando empleados...</td></tr>";
+
+      try {
+        const empleadosRef = collection(db, "empleados");
+        let q = query(empleadosRef, where("empresa", "==", empresaAdmin));
+        
+        const snapshot = await getDocs(q);
+        tablaBody.innerHTML = "";
+
+        if (snapshot.empty) {
+          tablaBody.innerHTML = "<tr><td colspan='6' class='text-center p-4'>No hay empleados registrados.</td></tr>";
+          return;
+        }
+
+        let usuariosFiltrados = [];
+        
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          // Aplicar filtros
+          if (estadoFiltro && data.estado !== estadoFiltro) return;
+          if (rolFiltro && data.rol !== rolFiltro) return;
+          if (busqueda && !data.nombre.toLowerCase().includes(busqueda)) return;
+          
+          usuariosFiltrados.push({ id: doc.id, ...data });
+        });
+
+        if (usuariosFiltrados.length === 0) {
+          tablaBody.innerHTML = "<tr><td colspan='6' class='text-center p-4'>No se encontraron usuarios con los filtros aplicados.</td></tr>";
+          return;
+        }
+
+        usuariosFiltrados.forEach(usuario => {
+          const fila = document.createElement("tr");
+          const estadoClass = usuario.estado === 'activo' ? 'estado-activo' : 'estado-inactivo';
+          
+          fila.innerHTML = `
+            <td>
+              <div class="usuario-avatar">
+                <div class="avatar-miniatura">${usuario.nombre.split(' ').map(n => n[0]).join('')}</div>
+                <div>${usuario.nombre || "-"}</div>
+              </div>
+            </td>
+            <td>${usuario.rol || "-"}</td>
+            <td>${usuario.correo || "-"}</td>
+            <td>${usuario.mina || "Sin asignar"}</td>
+            <td><span class="estado-usuario ${estadoClass}">${usuario.estado || "activo"}</span></td>
+            <td>
+              <div class="acciones-usuario">
+                <button class="action-btn edit-user" data-id="${usuario.id}">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="action-btn delete-user delete" data-id="${usuario.id}">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </td>
+          `;
+          tablaBody.appendChild(fila);
+        });
+
+        // Agregar event listeners a los botones
+        document.querySelectorAll('.edit-user').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            editarUsuario(id);
+          });
+        });
+
+        document.querySelectorAll('.delete-user').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            eliminarUsuario(id);
+          });
+        });
+
+      } catch (error) {
+        console.error("Error al cargar empleados:", error);
+        tablaBody.innerHTML = "<tr><td colspan='6' class='text-center p-4'>Error al cargar empleados.</td></tr>";
+      }
+    }
+
+    // Configurar event listeners para filtros
+    document.getElementById("filtro-estado-usuarios").addEventListener("change", cargarUsuarios);
+    document.getElementById("filtro-rol").addEventListener("change", cargarUsuarios);
+    document.getElementById("search-user").addEventListener("input", function() {
+      clearTimeout(this._timeout);
+      this._timeout = setTimeout(() => cargarUsuarios(), 300);
+    });
+
+    // Modal functionality
+    const userModal = document.getElementById('user-modal');
+    const addUserBtn = document.getElementById('btn-agregar-usuario');
+    const cancelUserBtn = document.getElementById('cancel-user');
+    const saveUserBtn = document.getElementById('save-user');
+    const closeBtn = userModal.querySelector('.close-btn');
+    const userForm = document.getElementById('user-form');
+
+    let editandoUsuarioId = null;
+
+    addUserBtn.addEventListener('click', async () => {
+      editandoUsuarioId = null;
+      document.getElementById('user-modal-title').textContent = 'Agregar Usuario';
+      userForm.reset();
+      
+      // Generar nuevo ID
+      const nuevoId = await generarNuevoIdEmpleado();
+      document.getElementById('user-id').value = nuevoId;
+      
+      userModal.classList.remove('hidden');
+    });
+
+    cancelUserBtn.addEventListener('click', () => {
+      userModal.classList.add('hidden');
+    });
+
+    closeBtn.addEventListener('click', () => {
+      userModal.classList.add('hidden');
+    });
+
+    async function editarUsuario(id) {
+      try {
+        const ref = doc(db, "empleados", id);
+        const snap = await getDoc(ref);
+        
+        if (!snap.exists()) {
+          alert("Empleado no encontrado.");
+          return;
+        }
+
+        const data = snap.data();
+        editandoUsuarioId = id;
+        
+        document.getElementById('user-modal-title').textContent = 'Editar Usuario';
+        document.getElementById('user-id').value = data.id_empleado || '';
+        document.getElementById('user-name').value = data.nombre || '';
+        document.getElementById('user-email').value = data.correo || '';
+        document.getElementById('user-phone').value = data.telefono || '';
+        document.getElementById('user-role').value = data.rol || 'worker';
+        document.getElementById('user-mine').value = data.mina || '';
+        document.getElementById('user-status').value = data.estado || 'activo';
+
+        userModal.classList.remove('hidden');
+      } catch (error) {
+        console.error('Error al cargar usuario:', error);
+        alert('Error al cargar los datos del usuario');
+      }
+    }
+
+    saveUserBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      
+      const userData = {
+        nombre: document.getElementById('user-name').value.trim(),
+        correo: document.getElementById('user-email').value.trim(),
+        telefono: document.getElementById('user-phone').value.trim(),
+        rol: document.getElementById('user-role').value,
+        mina: document.getElementById('user-mine').value,
+        estado: document.getElementById('user-status').value,
+        empresa: empresaAdmin,
+        id_empleado: parseInt(document.getElementById('user-id').value)
+      };
+
+      try {
+        if (editandoUsuarioId) {
+          // Actualizar usuario existente
+          await updateDoc(doc(db, "empleados", editandoUsuarioId), userData);
+          alert('Usuario actualizado correctamente');
+        } else {
+          // Crear nuevo usuario
+          await addDoc(collection(db, "empleados"), userData);
+          alert('Usuario creado correctamente');
+        }
+
+        userModal.classList.add('hidden');
+        cargarUsuarios();
+      } catch (error) {
+        console.error('Error al guardar usuario:', error);
+        alert('Error al guardar el usuario');
+      }
+    });
+
+    async function eliminarUsuario(id) {
+      if (!confirm('¿Está seguro de que desea eliminar este usuario?')) {
+        return;
+      }
+
+      try {
+        // Nota: En una implementación real, aquí usarías deleteDoc()
+        // Por ahora solo mostramos un mensaje
+        alert('Funcionalidad de eliminación - En desarrollo con Firebase');
+        console.log('Eliminar usuario ID:', id);
+      } catch (error) {
+        console.error('Error al eliminar usuario:', error);
+        alert('Error al eliminar el usuario');
+      }
+    }
+
+    // Cargar usuarios al iniciar
+    cargarUsuarios();
+  </script>
+  <!-- En la barra lateral, después del menú de navegación -->
+<div class="modo-oscuro-toggle-sidebar">
+    <div class="nav-item">
+        <i class="fas fa-moon"></i>
+        <span>Modo Oscuro</span>
+        <label class="switch">
+            <input type="checkbox" id="modo-oscuro-toggle-sidebar">
+            <span class="slider"></span>
+        </label>
+    </div>
+</div>
+</body>
+<script>
+    // Función para inicializar el modo oscuro en todas las páginas
+    function inicializarModoOscuro() {
+        const modoOscuroToggle = document.getElementById('modo-oscuro-toggle');
+        
+        // Verificar si el modo oscuro está activado en localStorage
+        if (localStorage.getItem('modoOscuro') === 'true') {
+            document.body.classList.add('modo-oscuro');
+            if (modoOscuroToggle) {
+                modoOscuroToggle.checked = true;
+            }
+        }
+        
+        // Event listener para el toggle del modo oscuro (si existe en la página)
+        if (modoOscuroToggle) {
+            modoOscuroToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    document.body.classList.add('modo-oscuro');
+                    localStorage.setItem('modoOscuro', 'true');
+                } else {
+                    document.body.classList.remove('modo-oscuro');
+                    localStorage.setItem('modoOscuro', 'false');
+                }
+            });
+        }
+    }
+
+    // Inicializar cuando el DOM esté listo
+    document.addEventListener('DOMContentLoaded', inicializarModoOscuro);
+</script>
+</html>

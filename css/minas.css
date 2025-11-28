@@ -1,0 +1,205 @@
+/* ========== ESTILOS ESPECÍFICOS PARA GESTIÓN DE MINAS ========== */
+.filtros-minas {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.buscador-minas {
+    flex: 1;
+    max-width: 300px;
+}
+
+.estadisticas-minas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.estadistica-mina {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.estadistica-icono-mina {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    font-size: 20px;
+}
+
+.estadistica-total .estadistica-icono-mina {
+    background-color: rgba(47, 94, 105, 0.1);
+    color: var(--primary-color);
+}
+
+.estadistica-activas .estadistica-icono-mina {
+    background-color: rgba(39, 174, 96, 0.1);
+    color: var(--success);
+}
+
+.estadistica-mantenimiento .estadistica-icono-mina {
+    background-color: rgba(243, 156, 18, 0.1);
+    color: var(--warning);
+}
+
+.estadistica-contenido-mina h3 {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 5px;
+}
+
+.estadistica-contenido-mina .dato {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* Lista de minas */
+.lista-minas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+}
+
+.mina-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-left: 4px solid var(--primary-color);
+}
+
+.mina-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.mina-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.mina-nombre {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 5px;
+}
+
+.mina-estado {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.mina-activa .mina-estado {
+    background-color: rgba(39, 174, 96, 0.1);
+    color: var(--success);
+}
+
+.mina-inactiva .mina-estado {
+    background-color: rgba(231, 76, 60, 0.1);
+    color: var(--danger);
+}
+
+.mina-mantenimiento .mina-estado {
+    background-color: rgba(243, 156, 18, 0.1);
+    color: var(--warning);
+}
+
+.mina-info {
+    margin-bottom: 20px;
+}
+
+.mina-detalle {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.mina-detalle i {
+    width: 20px;
+    margin-right: 10px;
+    color: var(--primary-color);
+}
+
+.mina-acciones {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+/* Modal de minas */
+.modal-mina .form-group {
+    margin-bottom: 20px;
+}
+
+.modal-mina .form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.modal-mina .form-col {
+    flex: 1;
+}
+
+/* Responsive para minas */
+@media (max-width: 768px) {
+    .filtros-minas {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .buscador-minas {
+        max-width: none;
+    }
+    
+    .lista-minas {
+        grid-template-columns: 1fr;
+    }
+    
+    .mina-acciones {
+        justify-content: space-between;
+    }
+    
+    .modal-mina .form-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+.modo-oscuro-toggle-sidebar {
+    padding: 12px 16px;
+    border-top: 1px solid var(--border-color);
+}
+
+.modo-oscuro-toggle-sidebar .nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    color: var(--text-secondary);
+}
+
+.modo-oscuro-toggle-sidebar .switch {
+    margin-left: auto;
+}

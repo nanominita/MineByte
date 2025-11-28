@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acciones - MINEBYTE</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/acciones.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+  <div class="dashboard-container">
+
+    <!-- ========= SIDEBAR ========= -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <div class="logo-text">
+          <h2>MINEBYTE</h2>
+        </div>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <a href="administrador_panel.html" class="nav-item">
+          <i class="fas fa-tachometer-alt"></i>
+          <span>Panel</span>
+        </a>
+        <a href="minas.html" class="nav-item">
+          <i class="fas fa-hard-hat"></i>
+          <span>Minas</span>
+        </a>
+        <a href="sensores.html" class="nav-item">
+          <i class="fas fa-microchip"></i>
+          <span>Sensores</span>
+        </a>
+        <a href="alertas.html" class="nav-item">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span>Alertas</span>
+        </a>
+        <a href="usuarios.html" class="nav-item">
+          <i class="fas fa-users"></i>
+          <span>Usuarios</span>
+        </a>
+        <a href="acciones.html" class="nav-item active">
+          <i class="fas fa-tasks"></i>
+          <span>Acciones</span>
+        </a>
+        <a href="cuenta.html" class="nav-item">
+          <i class="fas fa-user-cog"></i>
+          <span>Cuenta</span>
+        </a>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <div class="user-avatar" id="avatar-iniciales">JP</div>
+          <div class="user-details">
+            <div class="user-name" id="usuario-nombre">Cargando...</div>
+            <div class="user-role" id="usuario-rol">Cargando...</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ========= MAIN CONTENT ========= -->
+    <main class="main-content">
+
+      <div class="dashboard-header">
+        <div>
+          <h1>Registro de Acciones</h1>
+          <p class="text-secondary">Historial de acciones correctivas y preventivas</p>
+        </div>
+        <div class="flex">
+          <button class="btn btn-primary" onclick="cargarAcciones()">
+            <i class="fas fa-sync-alt mr-2"></i> Actualizar
+          </button>
+        </div>
+      </div>
+
+
+      <div class="card p-4 mb-4">
+        <div class="filtros-acciones">
+          <div class="fecha-contenedor">
+            <label>Desde:</label>
+            <input type="date" id="fecha-inicio" class="form-control">
+          </div>
+          <div class="fecha-contenedor">
+            <label>Hasta:</label>
+            <input type="date" id="fecha-fin" class="form-control">
+          </div>
+
+          <select id="filtro-tipo" class="form-control">
+            <option value="">Todos los tipos</option>
+            <option value="correctiva">Correctiva</option>
+            <option value="preventiva">Preventiva</option>
+            <option value="mantenimiento">Mantenimiento</option>
+          </select>
+
+          <select id="filtro-estado" class="form-control">
+            <option value="">Todos los estados</option>
+            <option value="pendiente">Pendiente</option>
+            <option value="en-progreso">En Progreso</option>
+            <option value="completada">Completada</option>
+          </select>
+        </div>
+      </div>
+
+
+      <!-- ==== ESTADISTICAS ==== -->
+      <section class="estadisticas-acciones">
+        <div class="estadistica-accion estadistica-total">
+          <div class="estadistica-icono-accion">
+            <i class="fas fa-tasks"></i>
+          </div>
+          <div class="estadistica-contenido-accion">
+            <h3>Total Acciones</h3>
+            <div id="total-acciones">--</div>
+          </div>
+        </div>
+
+        <div class="estadistica-accion estadistica-completadas">
+          <div class="estadistica-icono-accion">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <div class="estadistica-contenido-accion">
+            <h3>Completadas</h3>
+            <div id="acciones-completadas">--</div>
+          </div>
+        </div>
+
+        <div class="estadistica-accion estadistica-pendientes">
+          <div class="estadistica-icono-accion">
+            <i class="fas fa-clock"></i>
+          </div>
+          <div class="estadistica-contenido-accion">
+            <h3>Pendientes</h3>
+            <div id="acciones-pendientes">--</div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ==== BOTÓN + LISTA === -->
+      <div class="flex justify-between items-center mb-4">
+        <h2>Lista de Acciones</h2>
+
+        <!-- === ESTE ES EL BOTÓN QUE FALTABA === -->
+        <button class="btn btn-primary" onclick="nuevaAccion()">Nueva acción</button>
+      </div>
+
+      <section class="lista-acciones" id="lista-acciones">
+        <div class="card p-4 text-center">
+          <p>Cargando acciones...</p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+
+  <!-- ========= MODAL ========= -->
+  <div id="action-modal" class="modal-overlay hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="action-modal-title">Nueva Acción</h3>
+        <button class="close-btn">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <form id="action-form">
+          <input type="hidden" id="action-id">
+
+          <div class="form-group">
+            <label>Descripción</label>
+            <textarea id="action-description" class="form-control" rows="3" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Tipo</label>
+            <select id="action-type" class="form-control">
+              <option value="correctiva">Correctiva</option>
+              <option value="preventiva">Preventiva</option>
+              <option value="mantenimiento">Mantenimiento</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Prioridad</label>
+            <select id="action-priority" class="form-control">
+              <option value="alta">Alta</option>
+              <option value="media">Media</option>
+              <option value="baja">Baja</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Estado</label>
+            <select id="action-status" class="form-control">
+              <option value="pendiente">Pendiente</option>
+              <option value="en-progreso">En Progreso</option>
+              <option value="completada">Completada</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Fecha Límite</label>
+            <input type="date" id="action-date" class="form-control">
+          </div>
+
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button id="cancel-action" class="btn btn-outline">Cancelar</button>
+        <button id="save-action" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const nombre = localStorage.getItem("nombreUsuario") || "Usuario";
+  const rol = localStorage.getItem("tipoCuenta") || "Sin rol";
+
+  const iniciales = nombre
+    .split(" ")
+    .map(p => p[0])
+    .join("")
+    .toUpperCase();
+
+  document.getElementById("usuario-nombre").textContent = nombre;
+  document.getElementById("usuario-rol").textContent = rol.charAt(0).toUpperCase() + rol.slice(1);
+  document.getElementById("avatar-iniciales").textContent = iniciales;
+</script>
+<script type="module">
+/* =======================================================
+   FIREBASE
+======================================================= */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
+import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
+
+const app = initializeApp({
+  apiKey: "AIzaSyC7YUiNYU2I4FzJL2IJzpdybFc7iD9ZYVw",
+  authDomain: "minebyte51m.firebaseapp.com",
+  projectId: "minebyte51m"
+});
+
+const db = getFirestore(app);
+
+
+/* =======================================================
+   CARGAR
+======================================================= */
+const lista = document.getElementById("lista-acciones");
+const totalEl = document.getElementById("total-acciones");
+const compEl = document.getElementById("acciones-completadas");
+const pendEl = document.getElementById("acciones-pendientes");
+
+
+async function cargarAcciones() {
+  lista.innerHTML = `<div class="card p-4 text-center">Cargando...</div>`;
+
+  const snap = await getDocs(collection(db,"acciones"));
+  let acciones = [];
+
+  snap.forEach(d => acciones.push({ id: d.id, ...d.data() }));
+
+  renderAcciones(acciones);
+}
+window.cargarAcciones = cargarAcciones;
+
+
+/* =======================================================
+   PINTAR
+======================================================= */
+function renderAcciones(arr){
+
+  totalEl.textContent = arr.length;
+  compEl.textContent = arr.filter(a=>a.estado==="completada").length;
+  pendEl.textContent = arr.filter(a=>a.estado==="pendiente").length;
+
+  lista.innerHTML = "";
+
+  if(arr.length==0){
+    lista.innerHTML = `<div class="card p-4 text-center">No hay acciones</div>`;
+    return;
+  }
+
+  arr.forEach(a=>{
+    const div = document.createElement("div");
+    div.className = "card accion-item";
+
+    div.innerHTML = `
+      <h3>${a.descripcion}</h3>
+      <p><b>Tipo:</b> ${a.tipo}</p>
+      <p><b>Prioridad:</b> ${a.prioridad}</p>
+      <p><b>Estado:</b> ${a.estado}</p>
+      <p><b>Fecha:</b> ${a.fecha}</p>
+
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="editar('${a.id}')">Editar</button>
+        <button class="btn btn-outline" onclick="ver('${a.id}')">Ver Registro</button>
+        <button class="btn btn-danger" onclick="eliminar('${a.id}')">Eliminar</button>
+      </div>
+    `;
+
+    lista.appendChild(div);
+  });
+}
+
+
+/* =======================================================
+   MODALES
+======================================================= */
+window.nuevaAccion = function(){
+  document.getElementById("action-id").value = "";
+  document.getElementById("action-description").value = "";
+  document.getElementById("action-type").value = "correctiva";
+  document.getElementById("action-priority").value = "media";
+  document.getElementById("action-status").value = "pendiente";
+  document.getElementById("action-date").value = "";
+
+  document.getElementById("action-modal-title").textContent = "Nueva Acción";
+  abrirModal();
+};
+
+function abrirModal(){
+  document.getElementById("action-modal").classList.remove("hidden");
+}
+function cerrarModal(){
+  document.getElementById("action-modal").classList.add("hidden");
+}
+
+document.querySelector(".close-btn").onclick = cerrarModal;
+document.getElementById("cancel-action").onclick = cerrarModal;
+
+
+/* =======================================================
+   GUARDAR
+======================================================= */
+document.getElementById("save-action").onclick = async ()=>{
+
+  const usuario = JSON.parse(localStorage.getItem("usuarioMineByte") || "{}");
+
+  const data = {
+    descripcion: document.getElementById("action-description").value,
+    tipo: document.getElementById("action-type").value,
+    prioridad: document.getElementById("action-priority").value,
+    estado: document.getElementById("action-status").value,
+    fecha: document.getElementById("action-date").value,
+    admin: usuario.nombre || "Administrador",
+    adminID: usuario.id || null
+  };
+
+  const id = document.getElementById("action-id").value;
+
+  if(id){
+    await updateDoc(doc(db,"acciones",id),data);
+  } else {
+    await addDoc(collection(db,"acciones"),data);
+  }
+
+  cerrarModal();
+  cargarAcciones();
+};
+
+
+/* =======================================================
+   ELIMINAR
+======================================================= */
+window.eliminar = async function(id){
+  await deleteDoc(doc(db,"acciones",id));
+  cargarAcciones();
+};
+
+
+/* =======================================================
+   EDITAR
+======================================================= */
+window.editar = function(id){
+  document.getElementById("action-id").value = id;
+  document.getElementById("action-modal-title").textContent = "Editar Acción";
+  abrirModal();
+};
+
+
+/* =======================================================
+   VER
+======================================================= */
+window.ver = function(id){
+  alert("Ver detalles ("+id+") - próximamente ");
+};
+
+cargarAcciones();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,555 @@
+/* ========== ESTILOS ESPECÍFICOS PARA GESTIÓN DE CUENTA ========== */
+.perfil-usuario {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 30px;
+}
+
+.perfil-info {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.avatar-grande {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: white;
+    font-size: 36px;
+    font-weight: 700;
+    box-shadow: 0 8px 20px rgba(47, 94, 105, 0.3);
+}
+
+.nombre-usuario {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 5px;
+}
+
+.rol-usuario {
+    font-size: 16px;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.detalles-perfil {
+    margin-bottom: 25px;
+}
+
+.detalle-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    padding: 10px;
+    background-color: rgba(47, 94, 105, 0.05);
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.detalle-item:hover {
+    background-color: rgba(47, 94, 105, 0.1);
+}
+
+.detalle-item i {
+    width: 20px;
+    margin-right: 10px;
+    color: var(--primary-color);
+}
+
+.botones-perfil {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.configuracion-cuenta {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.seccion-configuracion {
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.seccion-configuracion:last-child {
+    margin-bottom: 0;
+}
+
+.seccion-titulo {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.form-configuracion {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-fila {
+    display: flex;
+    gap: 20px;
+}
+
+.form-columna {
+    flex: 1;
+}
+
+.opciones-seguridad {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.opcion-seguridad {
+    flex: 1;
+    min-width: 200px;
+}
+
+.preferencias-cuenta {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.opcion-preferencia {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.opcion-preferencia:last-child {
+    border-bottom: none;
+}
+
+.descripcion-preferencia {
+    flex: 1;
+}
+
+.titulo-preferencia {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 5px;
+}
+
+.subtitulo-preferencia {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+/* Modales de cuenta */
+.modal-cuenta .form-group {
+    margin-bottom: 20px;
+}
+
+.modal-cuenta .form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.modal-cuenta .form-col {
+    flex: 1;
+}
+
+/* Responsive para cuenta */
+@media (max-width: 1024px) {
+    .perfil-usuario {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .perfil-info {
+        padding: 20px;
+    }
+    
+    .configuracion-cuenta {
+        padding: 20px;
+    }
+    
+    .preferencias-cuenta {
+        padding: 20px;
+    }
+    
+    .form-fila {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .opciones-seguridad {
+        flex-direction: column;
+    }
+    
+    .opcion-seguridad {
+        min-width: auto;
+    }
+    
+    .modal-cuenta .form-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .avatar-grande {
+        width: 100px;
+        height: 100px;
+        font-size: 28px;
+    }
+    
+    .nombre-usuario {
+        font-size: 20px;
+    }
+    
+    .opcion-preferencia {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
+
+/* ========== ESTILOS ESPECÍFICOS PARA GESTIÓN DE CUENTA ========== */
+.perfil-usuario {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.perfil-info {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.avatar-grande {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: white;
+    font-size: 36px;
+    font-weight: 700;
+    box-shadow: 0 8px 20px rgba(47, 94, 105, 0.3);
+}
+
+.nombre-usuario {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 5px;
+}
+
+.rol-usuario {
+    font-size: 16px;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.detalles-perfil {
+    margin-bottom: 25px;
+}
+
+.detalle-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    padding: 10px;
+    background-color: rgba(47, 94, 105, 0.05);
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.detalle-item:hover {
+    background-color: rgba(47, 94, 105, 0.1);
+}
+
+.detalle-item i {
+    width: 20px;
+    margin-right: 10px;
+    color: var(--primary-color);
+}
+
+.botones-perfil {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.configuracion-cuenta {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.seccion-configuracion {
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.seccion-configuracion:last-child {
+    margin-bottom: 0;
+}
+
+.seccion-titulo {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.form-configuracion {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-fila {
+    display: flex;
+    gap: 20px;
+}
+
+.form-columna {
+    flex: 1;
+}
+
+.opciones-seguridad {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.opcion-seguridad {
+    flex: 1;
+    min-width: 200px;
+}
+
+/* Sección de preferencias que ocupa todo el ancho */
+.preferencias-cuenta-full {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.opciones-preferencias-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+}
+
+.opcion-preferencia {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: rgba(47, 94, 105, 0.05);
+    transition: background-color 0.3s ease;
+}
+
+.opcion-preferencia:hover {
+    background-color: rgba(47, 94, 105, 0.1);
+}
+
+.descripcion-preferencia {
+    flex: 1;
+}
+
+.titulo-preferencia {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 5px;
+}
+
+.subtitulo-preferencia {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+/* Modales de cuenta */
+.modal-cuenta .form-group {
+    margin-bottom: 20px;
+}
+
+.modal-cuenta .form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.modal-cuenta .form-col {
+    flex: 1;
+}
+
+/* ========== ESTILOS PARA MODO OSCURO ========== */
+body.modo-oscuro {
+    --background: #1a1a1a;
+    --card-bg: #2d2d2d;
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --border-color: #404040;
+    --primary-color: #4a9ba7;
+    --primary-dark: #3a7a85;
+}
+
+body.modo-oscuro .sidebar {
+    background-color: #2d2d2d;
+    border-right-color: #404040;
+}
+
+body.modo-oscuro .sidebar-nav .nav-item {
+    color: #b0b0b0;
+}
+
+body.modo-oscuro .sidebar-nav .nav-item.active {
+    background-color: #4a9ba7;
+    color: white;
+}
+
+body.modo-oscuro .sidebar-footer {
+    border-top-color: #404040;
+}
+
+body.modo-oscuro .card,
+body.modo-oscuro .perfil-info,
+body.modo-oscuro .configuracion-cuenta,
+body.modo-oscuro .preferencias-cuenta-full {
+    background-color: #2d2d2d;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+body.modo-oscuro .form-control {
+    background-color: #3a3a3a;
+    border-color: #404040;
+    color: #ffffff;
+}
+
+body.modo-oscuro .form-control:focus {
+    border-color: #4a9ba7;
+    box-shadow: 0 0 0 2px rgba(74, 155, 167, 0.2);
+}
+
+body.modo-oscuro .detalle-item {
+    background-color: rgba(74, 155, 167, 0.1);
+}
+
+body.modo-oscuro .detalle-item:hover {
+    background-color: rgba(74, 155, 167, 0.2);
+}
+
+body.modo-oscuro .btn-outline {
+    border-color: #4a9ba7;
+    color: #4a9ba7;
+}
+
+body.modo-oscuro .btn-outline:hover {
+    background-color: rgba(74, 155, 167, 0.1);
+}
+
+body.modo-oscuro .seccion-titulo {
+    border-bottom-color: #404040;
+}
+
+body.modo-oscuro .opcion-preferencia {
+    background-color: rgba(74, 155, 167, 0.1);
+}
+
+body.modo-oscuro .opcion-preferencia:hover {
+    background-color: rgba(74, 155, 167, 0.2);
+}
+
+/* Responsive para cuenta */
+@media (max-width: 1024px) {
+    .perfil-usuario {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .perfil-info {
+        padding: 20px;
+    }
+    
+    .configuracion-cuenta {
+        padding: 20px;
+    }
+    
+    .preferencias-cuenta-full {
+        padding: 20px;
+    }
+    
+    .form-fila {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .opciones-seguridad {
+        flex-direction: column;
+    }
+    
+    .opcion-seguridad {
+        min-width: auto;
+    }
+    
+    .modal-cuenta .form-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .opciones-preferencias-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .avatar-grande {
+        width: 100px;
+        height: 100px;
+        font-size: 28px;
+    }
+    
+    .nombre-usuario {
+        font-size: 20px;
+    }
+    
+    .opcion-preferencia {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}

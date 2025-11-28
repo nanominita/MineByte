@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sensores</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/sensores.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const BASE_URL = window.location.origin + '/MineByte';
+  </script>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Barra lateral -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <h2>MINEBYTE</h2>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="administrador_panel.html" class="nav-item">
+          <i class="fas fa-tachometer-alt"></i>
+          <span>Panel</span>
+        </a>
+        <a href="minas.html" class="nav-item">
+          <i class="fas fa-hard-hat"></i>
+          <span>Minas</span>
+        </a>
+        <a href="sensores.html" class="nav-item active">
+          <i class="fas fa-microchip"></i>
+          <span>Sensores</span>
+        </a>
+        <a href="alertas.html" class="nav-item">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span>Alertas</span>
+        </a>
+        <a href="usuarios.html" class="nav-item">
+          <i class="fas fa-users"></i>
+          <span>Usuarios</span>
+        </a>
+        <a href="acciones.html" class="nav-item">
+          <i class="fas fa-tasks"></i>
+          <span>Acciones</span>
+        </a>
+        <a href="cuenta.html" class="nav-item">
+          <i class="fas fa-user-cog"></i>
+          <span>Cuenta</span>
+        </a>
+      </nav>
+       <div class="sidebar-footer">
+        <div class="user-info">
+          <div class="user-avatar" id="avatar-iniciales">JP</div>
+          <div class="user-details">
+            <div class="user-name" id="usuario-nombre">Cargando...</div>
+            <div class="user-role" id="usuario-rol">Cargando...</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+      <div class="dashboard-header">
+        <div>
+          <h1>Monitoreo de Sensores</h1>
+          <p class="text-secondary">Visualiza datos en tiempo real y el historial de lecturas</p>
+        </div>
+        <div class="filtros-sensores">
+          <div class="filtro-mina">
+            <label for="select-mina">Mina:</label>
+            <select id="select-mina" class="form-control" onchange="cargarGraficas()">
+              <option value="todas">Cargando minas...</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" onclick="cargarGraficas()">
+            <i class="fas fa-sync-alt"></i>
+            Actualizar
+          </button>
+        </div>
+      </div>
+
+      <!-- Gráficas de historial de sensores -->
+      <div class="filtros-sensores" style="margin-bottom: 20px;">
+        <h2 id="titulo-graficas" style="margin: 0; flex: 1;">Historial de Lecturas - Últimas 24 horas</h2>
+        <div class="rango-tiempo">
+          <button class="btn-tiempo active" onclick="cambiarRangoTiempo('24H')">24H</button>
+          <button class="btn-tiempo" onclick="cambiarRangoTiempo('7D')">7D</button>
+          <button class="btn-tiempo" onclick="cambiarRangoTiempo('1M')">1M</button>
+        </div>
+      </div>
+      
+      <section class="graficas-container">
+        <!-- Movimiento -->
+<div class="card grafica-card">
+  <div class="grafica-header">
+    <h3 class="grafica-title">Movimiento Detectado</h3>
+    <div class="grafica-estado">
+      <span id="estado-movimiento" class="estado-normal">
+        <span class="estado-indicador"></span>
+        Normal
+      </span>
+    </div>
+  </div>
+  <div class="grafica-contenedor">
+    <canvas id="graficaMovimiento"></canvas>
+  </div>
+</div>
+
+
+
+        
+        <!-- Temperatura -->
+        <div class="card grafica-card">
+          <div class="grafica-header">
+            <h3 class="grafica-title">Temperatura (°C)</h3>
+            <div class="grafica-estado">
+              <span id="estado-temperatura" class="estado-normal">
+                <span class="estado-indicador"></span>
+                Normal
+              </span>
+            </div>
+          </div>
+          <div class="grafica-contenedor">
+            <canvas id="graficaTemperatura"></canvas>
+          </div>
+        </div>
+
+        <!-- Humedad -->
+        <div class="card grafica-card">
+          <div class="grafica-header">
+            <h3 class="grafica-title">Humedad (%)</h3>
+            <div class="grafica-estado">
+              <span id="estado-humedad" class="estado-normal">
+                <span class="estado-indicador"></span>
+                Normal
+              </span>
+            </div>
+          </div>
+          <div class="grafica-contenedor">
+            <canvas id="graficaHumedad"></canvas>
+          </div>
+        </div>
+
+        <!-- Gas Metano -->
+        <div class="card grafica-card">
+          <div class="grafica-header">
+            <h3 class="grafica-title">Gas Metano (ppm)</h3>
+            <div class="grafica-estado">
+              <span id="estado-gas" class="estado-normal">
+                <span class="estado-indicador"></span>
+                Normal
+              </span>
+            </div>
+          </div>
+          <div class="grafica-contenedor">
+            <canvas id="graficaGas"></canvas>
+          </div>
+        </div>
+
+        <!-- Nivel de Agua -->
+        <div class="card grafica-card">
+          <div class="grafica-header">
+            <h3 class="grafica-title">Nivel de Agua (cm)</h3>
+            <div class="grafica-estado">
+              <span id="estado-agua" class="estado-normal">
+                <span class="estado-indicador"></span>
+                Normal
+              </span>
+            </div>
+          </div>
+          <div class="grafica-contenedor">
+            <canvas id="graficaAgua"></canvas>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+
+<script>
+  const nombre = localStorage.getItem("nombreUsuario") || "Usuario";
+  const rol = localStorage.getItem("tipoCuenta") || "Sin rol";
+
+  const iniciales = nombre
+    .split(" ")
+    .map(p => p[0])
+    .join("")
+    .toUpperCase();
+
+  document.getElementById("usuario-nombre").textContent = nombre;
+  document.getElementById("usuario-rol").textContent = rol.charAt(0).toUpperCase() + rol.slice(1);
+  document.getElementById("avatar-iniciales").textContent = iniciales;
+</script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
+  import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyC7YUiNYU2I4FzJL2IJzpdybFc7iD9ZYVw",
+    authDomain: "minebyte51m.firebaseapp.com",
+    projectId: "minebyte51m",
+    storageBucket: "minebyte51m.firebasestorage.app",
+    messagingSenderId: "612192107615",
+    appId: "1:612192107615:web:6c374d21d070496779afea",
+    measurementId: "G-TB1JGW4CX6"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  let chartAgua = null, chartTemp = null, chartHum = null, chartGas = null, chartMov = null;
+  const intervalo = 3000;
+
+  // ---------------- AGUA ----------------
+  async function cargarGraficasAgua() {
+    const mina = document.getElementById("select-mina").value;
+    const ref = collection(db, "sensores_agua");
+    const q = mina === "todas" ? query(ref) : query(ref, where("mina", "==", mina));
+    const snapshot = await getDocs(q);
+    const datos = snapshot.docs.map(doc => doc.data()).filter(d => typeof d.distancia === "number");
+    const ahora = new Date();
+    const ultimos20 = datos.slice(-20).map((d, i) => ({
+      distancia: d.distancia,
+      timestamp: new Date(ahora - i * intervalo).toLocaleTimeString("es-MX", { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+    })).reverse();
+    graficarAgua(ultimos20);
+  }
+
+  function graficarAgua(datos) {
+    const ctx = document.getElementById("graficaAgua").getContext("2d");
+    if (chartAgua) chartAgua.destroy();
+    chartAgua = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: datos.map(d => d.timestamp),
+        datasets: [{
+          label: 'Nivel de Agua (cm)',
+          data: datos.map(d => d.distancia),
+          borderColor: '#007bff',
+          backgroundColor: 'rgba(0,123,255,0.4)',
+          fill: true,
+          tension: 0.4
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: { beginAtZero: true, min: 0, max: 100, ticks: { stepSize: 10 }, title: { display: true, text: 'Distancia (cm)' } }
+        }
+      }
+    });
+  }
+
+  // ---------------- TEMPERATURA + HUMEDAD ----------------
+  async function cargarGraficasTempHum() {
+    const mina = document.getElementById("select-mina").value;
+    const ref = collection(db, "sensores_temperatura");
+    const q = mina === "todas" ? query(ref) : query(ref, where("mina", "==", mina));
+    const snapshot = await getDocs(q);
+    const datos = snapshot.docs.map(doc => doc.data()).filter(d => typeof d.temperatura === "number" && typeof d.humedad === "number");
+    const ahora = new Date();
+    const ultimos20 = datos.slice(-20).map((d, i) => ({
+      temperatura: d.temperatura,
+      humedad: d.humedad,
+      timestamp: new Date(ahora - i * intervalo).toLocaleTimeString("es-MX", { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+    })).reverse();
+    graficarTemperatura(ultimos20);
+    graficarHumedad(ultimos20);
+  }
+
+  function graficarTemperatura(datos) {
+    const ctx = document.getElementById("graficaTemperatura").getContext("2d");
+    if (chartTemp) chartTemp.destroy();
+    chartTemp = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: datos.map(d => d.timestamp),
+        datasets: [{
+          label: 'Temperatura (°C)',
+          data: datos.map(d => d.temperatura),
+          borderColor: '#ff6384',
+          backgroundColor: 'rgba(255,99,132,0.4)',
+          fill: true,
+          tension: 0.4
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: { beginAtZero: true, min: 0, max: 100, ticks: { stepSize: 10 }, title: { display: true, text: 'Temperatura (°C)' } }
+        }
+      }
+    });
+  }
+
+  function graficarHumedad(datos) {
+    const ctx = document.getElementById("graficaHumedad").getContext("2d");
+    if (chartHum) chartHum.destroy();
+    chartHum = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: datos.map(d => d.timestamp),
+        datasets: [{
+          label: 'Humedad (%)',
+          data: datos.map(d => d.humedad),
+          borderColor: '#36a2eb',
+          backgroundColor: 'rgba(54,162,235,0.4)',
+          fill: true,
+          tension: 0.4
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: { beginAtZero: true, min: 0, max: 100, ticks: { stepSize: 10 }, title: { display: true, text: 'Humedad (%)' } }
+        }
+      }
+    });
+  }
+
+  // ---------------- METANO ----------------
+  async function cargarGraficasMetano() {
+    const mina = document.getElementById("select-mina").value;
+    const ref = collection(db, "sensores_metano");
+    const q = mina === "todas" ? query(ref) : query(ref, where("mina", "==", mina));
+    const snapshot = await getDocs(q);
+    const datos = snapshot.docs.map(doc => doc.data()).filter(d => typeof d.nivel === "number");
+    const ahora = new Date();
+    const ultimos20 = datos.slice(-20).map((d, i) => ({
+      nivel: d.nivel,
+      timestamp: new Date(ahora - i * intervalo).toLocaleTimeString("es-MX", { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+    })).reverse();
+    graficarMetano(ultimos20);
+  }
+
+  function graficarMetano(datos) {
+    const ctx = document.getElementById("graficaGas").getContext("2d");
+    if (chartGas) chartGas.destroy();
+    chartGas = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: datos.map(d => d.timestamp),
+        datasets: [{
+          label: 'Gas Metano (ppm)',
+          data: datos.map(d => d.nivel),
+          borderColor: '#ffa500',
+          backgroundColor: 'rgba(255,165,0,0.4)',
+          fill: true,
+          tension: 0.4
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: { beginAtZero: true, ticks: { stepSize: 50 }, title: { display: true, text: 'Nivel (ppm)' } }
+        }
+      }
+    });
+  }
+
+    // ---------------- MOVIMIENTO ----------------
+  async function cargarGraficasMovimiento() {
+    const mina = document.getElementById("select-mina").value;
+    const ref = collection(db, "sensores_movimiento");
+    const q = mina === "todas" ? query(ref) : query(ref, where("mina", "==", mina));
+    const snapshot = await getDocs(q);
+    const datos = snapshot.docs.map(doc => doc.data()).filter(d => typeof d.valor === "boolean");
+    const ahora = new Date();
+    const ultimos20 = datos.slice(-20).map((d, i) => ({
+      valor: d.valor ? 1 : 0,
+      timestamp: new Date(ahora - i * intervalo).toLocaleTimeString("es-MX", {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      })
+    })).reverse();
+    graficarMovimiento(ultimos20);
+  }
+
+  function graficarMovimiento(datos) {
+    const ctx = document.getElementById("graficaMovimiento").getContext("2d");
+    if (chartMov) chartMov.destroy();
+    chartMov = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: datos.map(d => d.timestamp),
+        datasets: [{
+          label: 'Movimiento Detectado',
+          data: datos.map(d => d.valor),
+          borderColor: '#28a745',
+          backgroundColor: 'rgba(40,167,69,0.4)',
+          fill: true,
+          tension: 0.4,
+          stepped: true
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            max: 1,
+            ticks: {
+              stepSize: 1,
+              callback: value => value === 1 ? 'Sí' : 'No'
+            },
+            title: {
+              display: true,
+              text: 'Movimiento',
+              color: '#666'
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // ---------------- REFRESCO GLOBAL ----------------
+  window.addEventListener("DOMContentLoaded", () => {
+    cargarGraficasAgua();
+    cargarGraficasTempHum();
+    cargarGraficasMetano();
+    cargarGraficasMovimiento();
+    setInterval(() => {
+      cargarGraficasAgua();
+      cargarGraficasTempHum();
+      cargarGraficasMetano();
+      cargarGraficasMovimiento();
+    }, intervalo);
+  });
+</script>
+
+
+  
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Supervisor - MINEBYTE</title>
+  <link rel="stylesheet" href="../css/index.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <script>
+    const API_BASE_URL = 'http://localhost/minas_project/php';
+    const SITE_BASE_URL = 'http://localhost/minas_project';
+  </script>
+</head>
+<body>
+  <div class="contenedor">
+    <!-- Barra lateral -->
+    <aside class="barra-lateral">
+      <div class="logo">
+        <div class="logo-icono">
+          <img src="../Logo bodrio.png" alt="MINEBYTE">
+        </div>
+        <h2>MINEBYTE</h2>
+      </div>
+      <nav>
+        <a href="supervisor_panel.html" class="nav-link active">
+          <i class="fas fa-tachometer-alt"></i>
+          <span>Panel</span>
+        </a>
+        <a href="minas.html" class="nav-link">
+          <i class="fas fa-hard-hat"></i>
+          <span>Minas</span>
+        </a>
+        <a href="sensores.html" class="nav-link">
+          <i class="fas fa-microchip"></i>
+          <span>Sensores</span>
+        </a>
+        <a href="alertas.html" class="nav-link">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span>Alertas</span>
+        </a>
+        <a href="usuarios.html" class="nav-link">
+          <i class="fas fa-users"></i>
+          <span>Usuarios</span>
+        </a>
+        <a href="acciones.html" class="nav-link">
+          <i class="fas fa-tasks"></i>
+          <span>Acciones</span>
+        </a>
+        <a href="cuenta.html" class="nav-link">
+          <i class="fas fa-user-cog"></i>
+          <span>Cuenta</span>
+        </a>
+      </nav>
+      <div class="usuario-info">
+        <div class="avatar-mini">
+          <span>SM</span>
+        </div>
+        <div class="usuario-datos">
+          <p class="usuario-nombre">Sofía Martínez</p>
+          <p class="usuario-rol">Supervisor</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="contenido-principal">
+      <header>
+        <div class="header-titulo">
+          <h1>Panel de Supervisión - Supervisor</h1>
+          <p class="fecha" id="fecha-actual">Cargando fecha...</p>
+        </div>
+        <div class="header-acciones">
+          <button class="btn btn-secundario" onclick="actualizarPanel()">
+            <i class="fas fa-sync-alt"></i>
+            Actualizar
+          </button>
+          <button class="btn btn-primario" onclick="generarReporte()">
+            <i class="fas fa-file-pdf"></i>
+            Generar Reporte
+          </button>
+        </div>
+      </header>
+
+      <!-- Sección de estadísticas globales -->
+      <section class="estadisticas">
+        <div class="tarjeta estadistica">
+          <div class="estadistica-icono">
+            <i class="fas fa-hard-hat"></i>
+          </div>
+          <div class="estadistica-contenido">
+            <h3>Minas asignadas</h3>
+            <p class="dato" id="minas-asignadas">3</p>
+          </div>
+        </div>
+        <div class="tarjeta estadistica">
+          <div class="estadistica-icono">
+            <i class="fas fa-microchip"></i>
+          </div>
+          <div class="estadistica-contenido">
+            <h3>Sensores activos</h3>
+            <p class="dato" id="sensores-activos">24</p>
+          </div>
+        </div>
+        <div class="tarjeta estadistica">
+          <div class="estadistica-icono">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <div class="estadistica-contenido">
+            <h3>Alertas activas</h3>
+            <p class="dato alerta-peligro" id="alertas-activas">2</p>
+          </div>
+        </div>
+        <div class="tarjeta estadistica">
+          <div class="estadistica-icono">
+            <i class="fas fa-tasks"></i>
+          </div>
+          <div class="estadistica-contenido">
+            <h3>Acciones pendientes</h3>
+            <p class="dato" id="acciones-pendientes">5</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sensores en tiempo real -->
+      <div class="seccion-titulo">
+        <h2>Monitoreo en Tiempo Real</h2>
+        <div class="filtro-mina">
+          <select id="select-mina-panel" onchange="cambiarMina()">
+            <option value="dorado">Mina El Dorado</option>
+            <option value="esperanza">Mina La Esperanza</option>
+            <option value="carbon">Mina Carbonífera</option>
+          </select>
+        </div>
+      </div>
+      
+      <section class="tarjetas" id="tarjetas-sensores">
+        <!-- Los sensores se cargarán dinámicamente -->
+      </section>
+
+      <!-- Alertas críticas -->
+      <div class="seccion-titulo">
+        <h2>Alertas Críticas</h2>
+        <button class="btn btn-texto" onclick="window.location.href='alertas.html'">
+          Ver todas <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+      
+      <section class="lista-alertas-criticas" id="alertas-criticas">
+        <!-- Las alertas críticas se cargarán dinámicamente -->
+      </section>
+
+      <!-- Acciones pendientes -->
+      <div class="seccion-titulo">
+        <h2>Acciones Pendientes</h2>
+        <button class="btn btn-texto" onclick="window.location.href='acciones.html'">
+          Ver todas <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+      
+      <section class="tabla-contenedor">
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Descripción</th>
+              <th>Mina</th>
+              <th>Prioridad</th>
+              <th>Fecha límite</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-acciones-body">
+            <!-- Las acciones se cargarán dinámicamente -->
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+  <script src="../app.js"></script>
+  <script>
+    function actualizarPanel() {
+      cargarSensoresEnTiempoReal();
+      cargarAlertasCriticas();
+      cargarAccionesPendientes();
+      mostrarMensaje('Panel actualizado correctamente', 'exito');
+    }
+
+    function generarReporte() {
+      mostrarMensaje('Generando reporte de supervisión...', 'info');
+      // Simular generación de reporte
+      setTimeout(() => {
+        mostrarMensaje('Reporte generado correctamente', 'exito');
+      }, 2000);
+    }
+
+    function cambiarMina() {
+      cargarSensoresEnTiempoReal();
+    }
+
+    function cargarSensoresEnTiempoReal() {
+      const minaSeleccionada = document.getElementById('select-mina-panel').value;
+      const nombreMina = document.getElementById('select-mina-panel').options[document.getElementById('select-mina-panel').selectedIndex].text;
+      
+      // Simular datos de sensores en tiempo real
+      const sensores = [
+        { tipo: 'temperatura', valor: '26.3°C', estado: 'normal', mina: nombreMina },
+        { tipo: 'humedad', valor: '72%', estado: 'alerta', mina: nombreMina },
+        { tipo: 'gas', valor: '120 ppm', estado: 'peligro', mina: nombreMina },
+        { tipo: 'agua', valor: '45%', estado: 'normal', mina: nombreMina },
+        { tipo: 'vibracion', valor: '3.2 m/s²', estado: 'normal', mina: nombreMina }
+      ];
+
+      const contenedor = document.getElementById('tarjetas-sensores');
+      if (contenedor) {
+        contenedor.innerHTML = sensores.map(sensor => `
+          <div class="tarjeta sensor ${sensor.tipo}">
+            <div class="sensor-icono">
+              <i class="fas fa-${sensor.tipo === 'temperatura' ? 'thermometer-half' : 
+                                sensor.tipo === 'humedad' ? 'tint' : 
+                                sensor.tipo === 'gas' ? 'wind' : 
+                                sensor.tipo === 'agua' ? 'water' : 'wave-square'}"></i>
+            </div>
+            <div class="sensor-contenido">
+              <h3>Sensor de ${sensor.tipo.charAt(0).toUpperCase() + sensor.tipo.slice(1)}</h3>
+              <p class="sensor-valor">${sensor.valor}</p>
+              <div class="sensor-estado">
+                <span class="estado-${sensor.estado}">${sensor.estado.charAt(0).toUpperCase() + sensor.estado.slice(1)}</span>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    function cargarAlertasCriticas() {
+      const alertas = [
+        { id: 'A-102', tipo: 'Gas Metano', nivel: 'Crítico', mina: 'El Dorado', tiempo: 'Hace 15 min' },
+        { id: 'A-108', tipo: 'Nivel de Agua', nivel: 'Crítico', mina: 'Carbonífera', tiempo: 'Hace 32 min' }
+      ];
+
+      const contenedor = document.getElementById('alertas-criticas');
+      if (contenedor) {
+        contenedor.innerHTML = alertas.map(alerta => `
+          <div class="tarjeta alerta-critica">
+            <div class="alerta-header">
+              <h3>${alerta.tipo}</h3>
+              <span class="nivel-alerta critico">${alerta.nivel}</span>
+            </div>
+            <div class="alerta-info">
+              <p><strong>ID:</strong> ${alerta.id}</p>
+              <p><strong>Mina:</strong> ${alerta.mina}</p>
+              <p><strong>Tiempo:</strong> ${alerta.tiempo}</p>
+            </div>
+            <div class="alerta-acciones">
+              <button class="btn btn-texto" onclick="verDetalleAlerta('${alerta.id}')">
+                <i class="fas fa-eye"></i> Ver Detalle
+              </button>
+              <button class="btn btn-primario" onclick="asignarAccion('${alerta.id}')">
+                <i class="fas fa-tasks"></i> Asignar Acción
+              </button>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    function cargarAccionesPendientes() {
+      const acciones = [
+        { id: 'AC-015', descripcion: 'Revisar sistema de ventilación - Sector B', mina: 'El Dorado', prioridad: 'Alta', fecha: '15/11/2025' },
+        { id: 'AC-018', descripcion: 'Calibrar sensores de gas metano', mina: 'Carbonífera', prioridad: 'Media', fecha: '18/11/2025' },
+        { id: 'AC-022', descripcion: 'Inspección estructural túneles principales', mina: 'La Esperanza', prioridad: 'Alta', fecha: '20/11/2025' }
+      ];
+
+      const tbody = document.getElementById('tabla-acciones-body');
+      if (tbody) {
+        tbody.innerHTML = acciones.map(accion => `
+          <tr>
+            <td>${accion.id}</td>
+            <td>${accion.descripcion}</td>
+            <td>${accion.mina}</td>
+            <td><span class="prioridad-${accion.prioridad.toLowerCase()}">${accion.prioridad}</span></td>
+            <td>${accion.fecha}</td>
+            <td>
+              <button class="btn btn-texto" onclick="verAccion('${accion.id}')">
+                <i class="fas fa-eye"></i>
+              </button>
+              <button class="btn btn-texto" onclick="editarAccion('${accion.id}')">
+                <i class="fas fa-edit"></i>
+              </button>
+            </td>
+          </tr>
+        `).join('');
+      }
+    }
+
+    function verDetalleAlerta(id) {
+      alert(`Detalle de alerta ${id} - Funcionalidad en desarrollo`);
+    }
+
+    function asignarAccion(id) {
+      alert(`Asignar acción para alerta ${id} - Funcionalidad en desarrollo`);
+    }
+
+    function verAccion(id) {
+      alert(`Ver acción ${id} - Funcionalidad en desarrollo`);
+    }
+
+    function editarAccion(id) {
+      alert(`Editar acción ${id} - Funcionalidad en desarrollo`);
+    }
+
+    function mostrarMensaje(mensaje, tipo) {
+      // Implementación básica de mensajes
+      alert(mensaje);
+    }
+
+    // Inicializar página específica del panel
+    document.addEventListener('DOMContentLoaded', function() {
+      // Establecer fecha actual
+      const fecha = new Date();
+      document.getElementById('fecha-actual').textContent = fecha.toLocaleDateString('es-ES', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+
+      cargarSensoresEnTiempoReal();
+      cargarAlertasCriticas();
+      cargarAccionesPendientes();
+    });
+  </script>
+</body>
+</html>

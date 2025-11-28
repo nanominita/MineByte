@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alertas - MINEBYTE</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/alertas.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    const BASE_URL = window.location.origin + '/MineByte';
+  </script>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Barra lateral -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <h2>MINEBYTE</h2>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="administrador_panel.html" class="nav-item">
+          <i class="fas fa-tachometer-alt"></i>
+          <span>Panel</span>
+        </a>
+        <a href="minas.html" class="nav-item">
+          <i class="fas fa-hard-hat"></i>
+          <span>Minas</span>
+        </a>
+        <a href="sensores.html" class="nav-item">
+          <i class="fas fa-microchip"></i>
+          <span>Sensores</span>
+        </a>
+        <a href="alertas.html" class="nav-item active">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span>Alertas</span>
+        </a>
+        <a href="usuarios.html" class="nav-item">
+          <i class="fas fa-users"></i>
+          <span>Usuarios</span>
+        </a>
+        <a href="acciones.html" class="nav-item">
+          <i class="fas fa-tasks"></i>
+          <span>Acciones</span>
+        </a>
+        <a href="cuenta.html" class="nav-item">
+          <i class="fas fa-user-cog"></i>
+          <span>Cuenta</span>
+        </a>
+      </nav>
+<div class="sidebar-footer">
+  <div class="user-info">
+    <div class="user-avatar" id="avatar-iniciales">JP</div>
+    <div class="user-details">
+      <div class="user-name" id="usuario-nombre">Cargando...</div>
+      <div class="user-role" id="usuario-rol">Cargando...</div>
+    </div>
+  </div>
+</div>
+</aside>
+
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+      <div class="dashboard-header">
+        <div>
+          <h1>Gestión de Alertas</h1>
+          <p class="text-secondary">Monitorea y gestiona todas las alertas del sistema</p>
+        </div>
+        <div>
+          <button class="btn btn-primary" onclick="cargarAlertas()">
+            <i class="fas fa-sync-alt"></i>
+            Actualizar
+          </button>
+          <button class="btn btn-outline" onclick="generarAlertaPrueba()">
+            <i class="fas fa-bell"></i>
+            Alerta Prueba
+          </button>
+        </div>
+      </div>
+
+  <div class="filtros-alertas">
+<select id="filtro-mina" class="form-control">
+
+  <option value="">Todas las minas</option>
+  <option>Pinabate</option>
+  <option>Otra mina del mismo usuario</option>
+</select>
+</div>
+
+
+      <section class="estadisticas-alertas">
+        <div class="estadistica-alerta estadistica-criticas">
+          <div class="estadistica-icono-alerta">
+            <i class="fas fa-exclamation-circle"></i>
+          </div>
+          <div class="estadistica-contenido-alerta">
+            <h3>Alertas Críticas</h3>
+            <p class="dato" id="contador-critico">0</p>
+          </div>
+        </div>
+        <div class="estadistica-alerta estadistica-activas">
+          <div class="estadistica-icono-alerta">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <div class="estadistica-contenido-alerta">
+            <h3>Alertas Activas</h3>
+            <p class="dato" id="contador-activas">0</p>
+          </div>
+        </div>
+        <div class="estadistica-alerta estadistica-24h">
+          <div class="estadistica-icono-alerta">
+            <i class="fas fa-clock"></i>
+          </div>
+          <div class="estadistica-contenido-alerta">
+            <h3>Últimas 24h</h3>
+            <p class="dato" id="contador-24h">0</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="dashboard-header">
+        <h2>Lista de Alertas</h2>
+        <div>
+          <button class="btn btn-outline" onclick="marcarTodasResueltas()">
+            <i class="fas fa-check-double"></i>
+            Marcar Todas Resueltas
+          </button>
+        </div>
+      </div>
+
+      <section class="lista-alertas" id="lista-alertas">
+        <div class="card" style="text-align: center; padding: 2rem;">
+          <p>Cargando alertas...</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal para detalles de alerta -->
+  <div id="modalAlerta" class="modal-overlay hidden">
+    <div class="modal modal-alerta">
+      <div class="modal-header">
+        <h3 id="modalTitulo">Detalles de Alerta</h3>
+        <button class="close-btn" onclick="cerrarModalAlerta()">&times;</button>
+      </div>
+      <div class="modal-body" id="modalBodyAlerta">
+        <!-- Contenido dinámico -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="cerrarModalAlerta()">Cerrar</button>
+        <button type="button" class="btn btn-primary" id="btnResolverAlerta" onclick="resolverAlerta()">Marcar como Resuelta</button>
+      </div>
+    </div>
+  </div>
+  <!-- En la barra lateral, después del menú de navegación -->
+<div class="modo-oscuro-toggle-sidebar">
+    <div class="nav-item">
+        <i class="fas fa-moon"></i>
+        <span>Modo Oscuro</span>
+        <label class="switch">
+            <input type="checkbox" id="modo-oscuro-toggle-sidebar">
+            <span class="slider"></span>
+        </label>
+    </div>
+</div>
+<script>
+  const nombre = localStorage.getItem("nombreUsuario") || "Usuario";
+  const rol = localStorage.getItem("tipoCuenta") || "Sin rol";
+
+  const iniciales = nombre
+    .split(" ")
+    .map(p => p[0])
+    .join("")
+    .toUpperCase();
+
+  document.getElementById("usuario-nombre").textContent = nombre;
+  document.getElementById("usuario-rol").textContent =
+    rol.charAt(0).toUpperCase() + rol.slice(1);
+  document.getElementById("avatar-iniciales").textContent = iniciales;
+</script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC7YUiNYU2I4FzJL2IJzpdybFc7iD9ZYVw",
+  authDomain: "minebyte51m.firebaseapp.com",
+  projectId: "minebyte51m",
+  storageBucket: "minebyte51m.firebasestorage.app",
+  messagingSenderId: "612192107615",
+  appId: "1:612192107615:web:6c374d21d070496779afea",
+  measurementId: "G-TB1JGW4CX6"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+async function cargarAlertas() {
+  let totalCriticas = 0;
+  let totalActivas = 0;
+
+  const ahora = new Date();
+  const lista = document.getElementById("lista-alertas");
+  lista.innerHTML = "";
+
+  const colecciones = [
+    { nombre: "sensores_agua", campo: "alerta", tipo: "Sensor de agua", mensaje: "Nivel de agua peligroso" },
+    { nombre: "sensores_temperatura", campo: "alerta_temperatura", tipo: "Sensor de temperatura", mensaje: "Temperatura fuera de rango" },
+    { nombre: "sensores_temperatura", campo: "alerta_humedad", tipo: "Sensor de humedad", mensaje: "Humedad elevada" },
+    { nombre: "sensores_metano", campo: "alerta_metano", tipo: "Sensor de metano", mensaje: "Nivel crítico detectado" },
+    { nombre: "sensores_movimiento", campo: "alerta", tipo: "Sensor de movimiento", mensaje: "Movimiento inesperado" }
+  ];
+
+  let offsetSegundos = 0;
+
+  for (const col of colecciones) {
+    const ref = collection(db, col.nombre);
+    const snapshot = await getDocs(ref);
+
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      const alerta = data[col.campo];
+
+      if (alerta === true) {
+        totalActivas++;
+        if (col.nombre === "sensores_metano") totalCriticas++;
+
+        const card = document.createElement("div");
+        card.className = "card alerta";
+        card.innerHTML = `
+          <h4>${col.tipo}</h4>
+          <p>${new Date().toLocaleString("es-MX")} — ${col.mensaje}</p>
+        `;
+        lista.appendChild(card);
+      }
+    });
+  }
+
+  document.getElementById("contador-critico").textContent = totalCriticas;
+  document.getElementById("contador-activas").textContent = totalActivas;
+
+  // ⭐ LO QUE QUERÍAS:
+  document.getElementById("contador-24h").textContent = totalCriticas + totalActivas;
+}
+
+window.addEventListener("DOMContentLoaded", cargarAlertas);
+</script>
+<script type="module">
+import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
+
+// ya existe db, no se vuelve a crear
+
+const idUsuario = localStorage.getItem("idUsuario");
+
+async function cargarMinasPorUsuario() {
+
+  const select = document.getElementById("filtro-mina");
+
+  const ref = collection(db, "minas");
+  const snapshot = await getDocs(ref);
+
+  snapshot.forEach(doc => {
+    const data = doc.data();
+
+    if (data.id_administrador == idUsuario) {
+      const option = document.createElement("option");
+      option.value = data.nombre;
+      option.textContent = data.nombre;
+      select.appendChild(option);
+    }
+  });
+}
+
+window.addEventListener("DOMContentLoaded", cargarMinasPorUsuario);
+</script>
+
+
+</body>
+</html>

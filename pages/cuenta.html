@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cuenta - MINEBYTE</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/cuenta.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Barra lateral -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <div class="logo-text">
+          <h2>MINEBYTE</h2>
+        </div>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <a href="administrador_panel.html" class="nav-item">
+          <i class="fas fa-tachometer-alt"></i>
+          <span>Panel</span>
+        </a>
+        <a href="minas.html" class="nav-item">
+          <i class="fas fa-hard-hat"></i>
+          <span>Minas</span>
+        </a>
+        <a href="sensores.html" class="nav-item">
+          <i class="fas fa-microchip"></i>
+          <span>Sensores</span>
+        </a>
+        <a href="alertas.html" class="nav-item">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span>Alertas</span>
+        </a>
+        <a href="usuarios.html" class="nav-item">
+          <i class="fas fa-users"></i>
+          <span>Usuarios</span>
+        </a>
+        <a href="acciones.html" class="nav-item">
+          <i class="fas fa-tasks"></i>
+          <span>Acciones</span>
+        </a>
+        <a href="cuenta.html" class="nav-item active">
+          <i class="fas fa-user-cog"></i>
+          <span>Cuenta</span>
+        </a>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <div class="user-avatar" id="avatar-iniciales-nav">JP</div>
+          <div class="user-details">
+            <div class="user-name" id="nombre-usuario-nav">Cargando...</div>
+            <div class="user-role" id="rol-usuario-nav">Cargando...</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+      <div class="dashboard-header">
+        <h1>Mi Cuenta</h1>
+      </div>
+
+      <section class="perfil-usuario">
+        <div class="perfil-info">
+          <div class="avatar-grande" id="avatar-grande">
+            <!-- Se llenará dinámicamente -->
+          </div>
+          <button class="btn btn-outline w-full mb-4" onclick="cambiarFoto()">
+            <i class="fas fa-camera mr-2"></i>
+            Cambiar foto
+          </button>
+          
+          <div class="nombre-usuario" id="nombre-completo">Cargando...</div>
+          <div class="rol-usuario" id="rol-usuario">Cargando...</div>
+          
+          <div class="detalles-perfil">
+            <div class="detalle-item">
+              <i class="fas fa-envelope"></i>
+              <span id="correo-usuario">Cargando...</span>
+            </div>
+            <div class="detalle-item">
+              <i class="fas fa-phone"></i>
+              <span id="telefono-usuario">Cargando...</span>
+            </div>
+            <div class="detalle-item">
+              <i class="fas fa-clock"></i>
+              <span>Último acceso: <span id="ultimo-acceso">Cargando...</span></span>
+            </div>
+          </div>
+          
+          <div class="botones-perfil">
+            <button class="btn btn-outline" onclick="cambiarContrasena()">
+              <i class="fas fa-key mr-2"></i>
+              Cambiar Contraseña
+            </button>
+            <button class="btn btn-outline" onclick="verSesionesActivas()">
+              <i class="fas fa-laptop mr-2"></i>
+              Sesiones Activas
+            </button>
+          </div>
+        </div>
+
+        <div class="configuracion-cuenta">
+          <div class="seccion-configuracion">
+            <h3 class="seccion-titulo">Configuración de Cuenta</h3>
+            <form class="form-configuracion" id="form-configuracion">
+              <div class="form-fila">
+                <div class="form-columna">
+                  <div class="form-group">
+                    <label class="form-label" for="nombre">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" required>
+                  </div>
+                </div>
+                <div class="form-columna">
+                  <div class="form-group">
+                    <label class="form-label" for="apellido">Apellido</label>
+                    <input type="text" class="form-control" id="apellido" required>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label" for="correo">Correo electrónico</label>
+                <input type="email" class="form-control" id="correo" required>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label" for="telefono">Teléfono</label>
+                <input type="tel" class="form-control" id="telefono">
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label" for="notificaciones">Notificaciones</label>
+                <select class="form-control" id="notificaciones">
+                  <option value="todas">Todas las notificaciones</option>
+                  <option value="solo-alertas">Solo alertas críticas</option>
+                  <option value="ninguna">Ninguna</option>
+                </select>
+              </div>
+              
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save mr-2"></i>
+                Guardar cambios
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sección de preferencias que ocupa todo el ancho -->
+      <section class="preferencias-cuenta-full">
+        <div class="seccion-configuracion">
+          <h3 class="seccion-titulo">Preferencias</h3>
+          
+          <div class="opciones-preferencias-grid">
+            <div class="opcion-preferencia">
+              <div class="descripcion-preferencia">
+                <div class="titulo-preferencia">Modo oscuro</div>
+                <div class="subtitulo-preferencia">Activar interfaz en modo oscuro</div>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="modo-oscuro-toggle">
+                <span class="slider"></span>
+              </label>
+            </div>
+            
+            <div class="opcion-preferencia">
+              <div class="descripcion-preferencia">
+                <div class="titulo-preferencia">Notificaciones por email</div>
+                <div class="subtitulo-preferencia">Recibir notificaciones en tu correo</div>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="notificaciones-email" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+            
+            <div class="opcion-preferencia">
+              <div class="descripcion-preferencia">
+                <div class="titulo-preferencia">Notificaciones push</div>
+                <div class="subtitulo-preferencia">Notificaciones en tiempo real</div>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="notificaciones-push" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal cambiar contraseña -->
+  <div id="change-password-modal" class="modal-overlay hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Cambiar Contraseña</h3>
+        <button class="close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="change-password-form">
+          <div class="form-group">
+            <label class="form-label" for="current-password">Contraseña actual</label>
+            <input type="password" class="form-control" id="current-password" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="new-password">Nueva contraseña</label>
+            <input type="password" class="form-control" id="new-password" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="confirm-password">Confirmar nueva contraseña</label>
+            <input type="password" class="form-control" id="confirm-password" required>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" id="cancel-change-password">Cancelar</button>
+        <button class="btn btn-primary" id="save-password">Cambiar Contraseña</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Obtener datos del usuario desde localStorage
+    const nombre = localStorage.getItem("nombreUsuario") || "Usuario";
+    const rol = localStorage.getItem("tipoCuenta") || "Sin rol";
+    const correo = localStorage.getItem("emailUsuario") || "Sin correo";
+    const apellidoPaterno = localStorage.getItem("apellidoPaterno") || "";
+    const apellidoMaterno = localStorage.getItem("apellidoMaterno") || "";
+    const descripcionRol = localStorage.getItem("descripcionRol") || "";
+    const empresa = localStorage.getItem("empresa") || "";
+    const idUsuario = localStorage.getItem("idUsuario") || "";
+    const telefono = localStorage.getItem("telefonoUsuario") || "No registrado";
+
+    // Iniciales para avatar
+    const iniciales = nombre
+      .split(" ")
+      .map(p => p[0])
+      .join("")
+      .toUpperCase();
+
+    // Fecha actual como último acceso simulado
+    const fechaAcceso = new Date().toLocaleString("es-MX", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+
+    // Rellenar barra lateral
+    document.getElementById("nombre-usuario-nav").textContent = nombre;
+    document.getElementById("rol-usuario-nav").textContent = rol;
+    document.getElementById("avatar-iniciales-nav").textContent = iniciales;
+
+    // Rellenar perfil principal
+    document.getElementById("avatar-grande").textContent = iniciales;
+    document.getElementById("nombre-completo").textContent = `${nombre} ${apellidoPaterno} ${apellidoMaterno}`;
+    document.getElementById("rol-usuario").textContent = `${rol} - ${descripcionRol}`;
+    document.getElementById("correo-usuario").textContent = correo;
+    document.getElementById("telefono-usuario").textContent = telefono;
+    document.getElementById("ultimo-acceso").textContent = fechaAcceso;
+
+    // Rellenar formulario de configuración
+    document.getElementById("nombre").value = nombre;
+    document.getElementById("apellido").value = `${apellidoPaterno} ${apellidoMaterno}`;
+    document.getElementById("correo").value = correo;
+    document.getElementById("telefono").value = telefono;
+
+    // Funcionalidad del modo oscuro
+    const modoOscuroToggle = document.getElementById('modo-oscuro-toggle');
+    
+    // Verificar si el modo oscuro está activado en localStorage
+    if (localStorage.getItem('modoOscuro') === 'true') {
+      document.body.classList.add('modo-oscuro');
+      modoOscuroToggle.checked = true;
+    }
+    
+    // Event listener para el toggle del modo oscuro
+    modoOscuroToggle.addEventListener('change', function() {
+      if (this.checked) {
+        document.body.classList.add('modo-oscuro');
+        localStorage.setItem('modoOscuro', 'true');
+      } else {
+        document.body.classList.remove('modo-oscuro');
+        localStorage.setItem('modoOscuro', 'false');
+      }
+    });
+
+    // Funciones placeholder
+    function cambiarFoto() {
+      alert("Funcionalidad de cambiar foto - En desarrollo");
+    }
+
+    function cambiarContrasena() {
+      document.getElementById('change-password-modal').classList.remove('hidden');
+    }
+
+    function verSesionesActivas() {
+      alert("Funcionalidad de sesiones activas - En desarrollo");
+    }
+
+    // Configurar modal de cambiar contraseña
+    document.addEventListener('DOMContentLoaded', function() {
+      const changePasswordModal = document.getElementById('change-password-modal');
+      const cancelChangePassword = document.getElementById('cancel-change-password');
+      const savePassword = document.getElementById('save-password');
+      const closeBtn = changePasswordModal.querySelector('.close-btn');
+
+      cancelChangePassword.addEventListener('click', function() {
+        changePasswordModal.classList.add('hidden');
+      });
+
+      closeBtn.addEventListener('click', function() {
+        changePasswordModal.classList.add('hidden');
+      });
+
+      savePassword.addEventListener('click', function() {
+        // Aquí iría la lógica para cambiar contraseña en Firebase
+        changePasswordModal.classList.add('hidden');
+        alert('Contraseña cambiada correctamente');
+      });
+
+      // Cerrar modal al hacer clic fuera
+      changePasswordModal.addEventListener('click', function(e) {
+        if (e.target === changePasswordModal) {
+          changePasswordModal.classList.add('hidden');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

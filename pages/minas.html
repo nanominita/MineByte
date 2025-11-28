@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minas - MINEBYTE</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/minas.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Barra lateral -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <h2>MINEBYTE</h2>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="administrador_panel.html" class="nav-item">
+          <i class="fas fa-tachometer-alt"></i>
+          <span>Panel</span>
+        </a>
+        <a href="minas.html" class="nav-item active">
+          <i class="fas fa-hard-hat"></i>
+          <span>Minas</span>
+        </a>
+        <a href="sensores.html" class="nav-item">
+          <i class="fas fa-microchip"></i>
+          <span>Sensores</span>
+        </a>
+        <a href="alertas.html" class="nav-item">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span>Alertas</span>
+        </a>
+        <a href="usuarios.html" class="nav-item">
+          <i class="fas fa-users"></i>
+          <span>Usuarios</span>
+        </a>
+        <a href="acciones.html" class="nav-item">
+          <i class="fas fa-tasks"></i>
+          <span>Acciones</span>
+        </a>
+        <a href="cuenta.html" class="nav-item">
+          <i class="fas fa-user-cog"></i>
+          <span>Cuenta</span>
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <div class="user-avatar" id="avatar-iniciales">JP</div>
+          <div class="user-details">
+            <div class="user-name" id="usuario-nombre">Cargando...</div>
+            <div class="user-role" id="usuario-rol">Cargando...</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+      <div class="dashboard-header">
+        <div>
+          <h1>Gestión de Minas</h1>
+          <p class="text-secondary">Administra y supervisa todas las minas del sistema</p>
+        </div>
+        <div>
+          <button class="btn btn-primary" id="btn-agregar-mina">
+            <i class="fas fa-plus"></i>
+            Agregar Mina
+          </button>
+          <button class="btn btn-outline" onclick="cargarMinas()">
+            <i class="fas fa-sync-alt"></i>
+            Actualizar
+          </button>
+        </div>
+      </div>
+
+      <div class="filtros-minas">
+        <div class="input-wrapper buscador-minas">
+          <i class="fas fa-search input-icon"></i>
+          <input type="text" placeholder="Buscar mina..." class="form-control with-icon" id="buscador-minas">
+        </div>
+        <select class="form-control" id="filtro-categoria-minas">
+          <option value="">Todas las categorías</option>
+          <option value="oro">Oro</option>
+          <option value="plata">Plata</option>
+          <option value="cobre">Cobre</option>
+          <option value="carbon">Carbón</option>
+        </select>
+        <select class="form-control" id="filtro-estado-minas">
+          <option value="">Todos los estados</option>
+          <option value="Activa">Activa</option>
+          <option value="Inactiva">Inactiva</option>
+          <option value="Mantenimiento">En mantenimiento</option>
+        </select>
+      </div>
+
+      <section class="estadisticas-minas">
+        <div class="estadistica-mina estadistica-total">
+          <div class="estadistica-icono-mina">
+            <i class="fas fa-hard-hat"></i>
+          </div>
+          <div class="estadistica-contenido-mina">
+            <h3>Total Minas</h3>
+            <p class="dato" id="total-minas">0</p>
+          </div>
+        </div>
+        <div class="estadistica-mina estadistica-activas">
+          <div class="estadistica-icono-mina">
+            <i class="fas fa-play-circle"></i>
+          </div>
+          <div class="estadistica-contenido-mina">
+            <h3>Minas Activas</h3>
+            <p class="dato" id="minas-activas">0</p>
+          </div>
+        </div>
+        <div class="estadistica-mina estadistica-mantenimiento">
+          <div class="estadistica-icono-mina">
+            <i class="fas fa-tools"></i>
+          </div>
+          <div class="estadistica-contenido-mina">
+            <h3>En Mantenimiento</h3>
+            <p class="dato" id="minas-mantenimiento">0</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="dashboard-header">
+        <h2>Lista de Minas</h2>
+      </div>
+
+      <section class="lista-minas" id="lista-minas">
+        <div class="card" style="text-align: center; padding: 2rem;">
+          <p>Cargando minas...</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal para agregar mina -->
+  <div class="modal-overlay hidden" id="modal-mina">
+    <div class="modal modal-lg">
+      <div class="modal-header">
+        <h3 id="modal-titulo">Agregar Nueva Mina</h3>
+        <button class="close-btn">&times;</button>
+      </div>
+      <form id="form-mina">
+        <div class="modal-body">
+          <input type="hidden" id="mina-id" name="id">
+          <div class="form-group">
+            <label for="mina-nombre" class="form-label">Nombre</label>
+            <input type="text" id="mina-nombre" name="nombre" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="mina-ubicacion" class="form-label">Ubicación</label>
+            <input type="text" id="mina-ubicacion" name="ubicacion" class="form-control" required>
+          </div>
+          <div class="form-row">
+            <div class="form-col">
+              <div class="form-group">
+                <label for="mina-categoria" class="form-label">Categoría</label>
+                <select id="mina-categoria" name="categoria" class="form-control" required>
+                  <option value="">Seleccione categoría</option>
+                  <option value="oro">Oro</option>
+                  <option value="plata">Plata</option>
+                  <option value="cobre">Cobre</option>
+                  <option value="carbon">Carbón</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-col">
+              <div class="form-group">
+                <label for="mina-estado" class="form-label">Estado</label>
+                <select id="mina-estado" name="status" class="form-control" required>
+                  <option value="Activa">Activa</option>
+                  <option value="Inactiva">Inactiva</option>
+                  <option value="Mantenimiento">En mantenimiento</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="mina-administrador" class="form-label">Administrador</label>
+            <select id="mina-administrador" name="id_usuario" class="form-control" required>
+              <option value="">Seleccione administrador</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline">Cancelar</button>
+          <button type="submit" class="btn btn-primary" id="btn-guardar-mina">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script>
+  const nombre = localStorage.getItem("nombreUsuario") || "Usuario";
+  const rol = localStorage.getItem("tipoCuenta") || "Sin rol";
+
+  const iniciales = nombre
+    .split(" ")
+    .map(p => p[0])
+    .join("")
+    .toUpperCase();
+
+  document.getElementById("usuario-nombre").textContent = nombre;
+  document.getElementById("usuario-rol").textContent = rol.charAt(0).toUpperCase() + rol.slice(1);
+  document.getElementById("avatar-iniciales").textContent = iniciales;
+</script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  getDoc,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc
+} from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC7YUiNYU2I4FzJL2IJzpdybFc7iD9ZYVw",
+  authDomain: "minebyte51m.firebaseapp.com",
+  projectId: "minebyte51m",
+  storageBucket: "minebyte51m.firebasestorage.app",
+  messagingSenderId: "612192107615",
+  appId: "1:612192107615:web:6c374d21d070496779afea",
+  measurementId: "G-TB1JGW4CX6"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let modoEdicion = false;
+let minaActualId = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+  mostrarDatosUsuarioActivo();
+  cargarAdministradores();
+  cargarMinas();
+
+  const modal = document.getElementById('modal-mina');
+  const btnAgregar = document.getElementById('btn-agregar-mina');
+  const btnCerrar = document.querySelector('.modal .close-btn');
+  const btnCancelar = document.querySelector('.modal-footer .btn-outline');
+  const formMina = document.getElementById('form-mina');
+
+  btnAgregar.addEventListener('click', () => {
+    modoEdicion = false;
+    minaActualId = null;
+    document.getElementById('modal-titulo').textContent = 'Agregar Nueva Mina';
+    document.getElementById('btn-guardar-mina').textContent = 'Guardar';
+    formMina.reset();
+    modal.classList.remove('hidden');
+  });
+
+  btnCerrar.addEventListener('click', cerrarModal);
+  btnCancelar.addEventListener('click', cerrarModal);
+
+  document.getElementById('buscador-minas').addEventListener('input', function () {
+    clearTimeout(this._timeout);
+    this._timeout = setTimeout(() => cargarMinas(), 300);
+  });
+
+  document.getElementById('filtro-categoria-minas').addEventListener('change', cargarMinas);
+  document.getElementById('filtro-estado-minas').addEventListener('change', cargarMinas);
+
+  formMina.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    if (modoEdicion) {
+      await actualizarMina();
+    } else {
+      await guardarMina();
+    }
+  });
+});
+
+
+function cerrarModal() {
+  document.getElementById('modal-mina').classList.add('hidden');
+  document.getElementById('form-mina').reset();
+  modoEdicion = false;
+  minaActualId = null;
+}
+
+
+/* ===========================
+     CARGAR MIS MINAS
+============================ */
+async function cargarMinas() {
+
+  const busqueda = document.getElementById('buscador-minas').value.toLowerCase();
+  const filtroCategoria = document.getElementById('filtro-categoria-minas').value;
+  const filtroEstado = document.getElementById('filtro-estado-minas').value;
+
+  const idUsuario = localStorage.getItem("idUsuario");
+
+  const ref = collection(db, "minas");
+  const snapshot = await getDocs(ref);
+
+  const minas = [];
+
+  snapshot.forEach(doc => {
+    const data = doc.data();
+    data.id = doc.id;
+
+    if (data.id_administrador !== idUsuario) return;
+
+    const coincideBusqueda = !busqueda || (data.nombre?.toLowerCase().includes(busqueda));
+    const coincideCategoria = !filtroCategoria || data.categoria === filtroCategoria;
+    const coincideEstado = !filtroEstado || data.status === filtroEstado;
+
+    if (coincideBusqueda && coincideCategoria && coincideEstado) {
+      minas.push(data);
+    }
+  });
+
+  actualizarEstadisticas(minas);
+  mostrarMinas(minas);
+}
+
+
+function actualizarEstadisticas(minas) {
+  document.getElementById('total-minas').textContent = minas.length;
+  document.getElementById('minas-activas').textContent = minas.filter(m => m.status === "Activa").length;
+  document.getElementById('minas-mantenimiento').textContent = minas.filter(m => m.status === "Mantenimiento").length;
+}
+
+
+/* ===========================
+        MOSTRAR MINAS
+============================ */
+function mostrarMinas(minas) {
+  const listaMinas = document.getElementById('lista-minas');
+
+  if (!minas || minas.length === 0) {
+    listaMinas.innerHTML = `
+      <div class="card" style="text-align:center;padding:2rem;">
+        <p>No se encontraron minas</p>
+      </div>
+    `;
+    return;
+  }
+
+  let html = '';
+  minas.forEach(mina => {
+    html += `
+      <div class="card mina-card">
+        <div class="mina-header">
+          <div class="mina-nombre">${mina.nombre}</div>
+          <span class="mina-estado">${mina.status}</span>
+        </div>
+        <div class="mina-info">
+          <div class="mina-detalle"><i class="fas fa-map-marker-alt"></i><span>${mina.ubicacion}</span></div>
+          <div class="mina-detalle"><i class="fas fa-tag"></i><span>${mina.categoria}</span></div>
+          <div class="mina-detalle"><i class="fas fa-user"></i><span>${mina.administrador}</span></div>
+        </div>
+        <div class="mina-acciones">
+          <button class="btn btn-outline" onclick="editarMina('${mina.id}')"><i class="fas fa-edit"></i> Editar</button>
+          <button class="btn btn-danger" onclick="eliminarMina('${mina.id}')"><i class="fas fa-trash"></i> Eliminar</button>
+          <button class="btn btn-outline" onclick="verDetallesMina('${mina.id}')"><i class="fas fa-eye"></i> Ver Detalles</button>
+        </div>
+      </div>
+    `;
+  });
+
+  listaMinas.innerHTML = html;
+}
+
+
+/* ===========================
+        CREAR MINA
+============================ */
+async function guardarMina() {
+
+  const form = document.getElementById('form-mina');
+
+  const idUsuario = localStorage.getItem("idUsuario");
+
+  const nuevaMina = {
+    nombre: form['mina-nombre'].value,
+    ubicacion: form['mina-ubicacion'].value,
+    categoria: form['mina-categoria'].value,
+    status: form['mina-estado'].value,
+    administrador: form['mina-administrador'].value,
+    id_administrador: idUsuario
+  };
+
+  await addDoc(collection(db, "minas"), nuevaMina);
+  alert("Mina creada correctamente");
+  cerrarModal();
+  cargarMinas();
+}
+
+
+/* ===========================
+        EDITAR MINA
+============================ */
+async function editarMina(id) {
+  modoEdicion = true;
+  minaActualId = id;
+
+  const ref = doc(db, "minas", id);
+  const snap = await getDoc(ref);
+  const data = snap.data();
+
+  document.getElementById('modal-titulo').textContent = 'Editar Mina';
+  document.getElementById('btn-guardar-mina').textContent = 'Actualizar';
+
+  document.getElementById('mina-nombre').value = data.nombre;
+  document.getElementById('mina-ubicacion').value = data.ubicacion;
+  document.getElementById('mina-categoria').value = data.categoria;
+  document.getElementById('mina-estado').value = data.status;
+
+  document.getElementById('modal-mina').classList.remove('hidden');
+}
+
+
+/* ===========================
+     ACTUALIZAR MINA
+============================ */
+async function actualizarMina() {
+
+  const form = document.getElementById('form-mina');
+  const ref = doc(db, "minas", minaActualId);
+
+  const datos = {
+    nombre: form['mina-nombre'].value,
+    ubicacion: form['mina-ubicacion'].value,
+    categoria: form['mina-categoria'].value,
+    status: form['mina-estado'].value
+  };
+
+  await updateDoc(ref, datos);
+  alert("Mina actualizada correctamente");
+  cerrarModal();
+  cargarMinas();
+}
+
+
+/* ===========================
+         VER DETALLES
+============================ */
+async function verDetallesMina(id) {
+  alert("Detalles de la mina ID: " + id);
+}
+
+
+/* ===========================
+         ELIMINAR
+============================ */
+async function eliminarMina(id) {
+  if (confirm("¿Seguro que deseas eliminar esta mina?")) {
+    await deleteDoc(doc(db, "minas", id));
+    alert("Mina eliminada correctamente");
+    cargarMinas();
+  }
+}
+
+
+/* ===========================
+  CARGAR ADMIN DESDE EMPLEADOS
+============================ */
+async function cargarAdministradores() {
+
+  const selectAdmin = document.getElementById("mina-administrador");
+  selectAdmin.innerHTML = `<option value="">Seleccione administrador</option>`;
+
+  const ref = collection(db, "empleados");
+  const snap = await getDocs(ref);
+
+  snap.forEach(doc => {
+    const u = doc.data();
+
+    if (u.rol.toLowerCase() === "admin" || u.rol.toLowerCase() === "administrador") {
+      const option = document.createElement("option");
+      option.value = u.nombre;
+      option.textContent = u.nombre;
+      selectAdmin.appendChild(option);
+    }
+  });
+}
+
+
+/* ===========================
+  MOSTRAR DATOS DEL USUARIO
+============================ */
+async function mostrarDatosUsuarioActivo() {
+
+  const nombreNav = document.getElementById("usuario-nombre");
+  const rolNav = document.getElementById("usuario-rol");
+  const iniciales = document.getElementById("avatar-iniciales");
+
+  const idUsuario = localStorage.getItem("idUsuario");
+  const ref = collection(db, "usuarios");
+  const snap = await getDocs(ref);
+
+  const usuario = snap.docs.map(d => d.data())
+    .find(u => u.id_usuario == idUsuario);
+
+  if (!usuario) return;
+
+  nombreNav.textContent = usuario.nombre;
+  rolNav.textContent = usuario.rol;
+  iniciales.textContent = usuario.nombre.charAt(0);
+}
+
+window.editarMina = editarMina;
+window.eliminarMina = eliminarMina;
+window.verDetallesMina = verDetallesMina;
+
+</script>
+
+
+
+</html>

@@ -1,0 +1,238 @@
+/* ========== GRÁFICAS Y MONITOREO EN TIEMPO REAL ========== */
+.graficas-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.grafica-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.grafica-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.grafica-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.grafica-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.grafica-estado {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.estado-indicador {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.estado-normal .estado-indicador {
+    background-color: var(--success);
+}
+
+.estado-alerta .estado-indicador {
+    background-color: var(--warning);
+}
+
+.estado-peligro .estado-indicador {
+    background-color: var(--danger);
+}
+
+.grafica-contenedor {
+    position: relative;
+    width: 100%;
+    height: 250px;
+    margin-top: 10px;
+}
+
+.grafica-contenedor canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Filtros para sensores */
+.filtros-sensores {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.filtro-mina {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filtro-mina label {
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+}
+
+.rango-tiempo {
+    display: flex;
+    background: white;
+    border-radius: 8px;
+    padding: 4px;
+    border: 1px solid var(--border-color);
+}
+
+.btn-tiempo {
+    padding: 8px 16px;
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    color: var(--text-secondary);
+}
+
+.btn-tiempo.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Estadísticas de sensores */
+.estadisticas-sensores {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.estadistica-sensor {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.estadistica-icono {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    font-size: 20px;
+}
+
+.estadistica-temperatura .estadistica-icono {
+    background-color: rgba(231, 76, 60, 0.1);
+    color: var(--danger);
+}
+
+.estadistica-humedad .estadistica-icono {
+    background-color: rgba(52, 152, 219, 0.1);
+    color: var(--info);
+}
+
+.estadistica-gas .estadistica-icono {
+    background-color: rgba(243, 156, 18, 0.1);
+    color: var(--warning);
+}
+
+.estadistica-agua .estadistica-icono {
+    background-color: rgba(47, 94, 105, 0.1);
+    color: var(--primary-color);
+}
+
+.estadistica-contenido h4 {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 5px;
+}
+
+.estadistica-contenido .valor {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* Responsive para gráficas */
+@media (max-width: 1024px) {
+    .graficas-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .grafica-contenedor {
+        height: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .filtros-sensores {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filtro-mina {
+        justify-content: space-between;
+    }
+    
+    .rango-tiempo {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .estadisticas-sensores {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .estadisticas-sensores {
+        grid-template-columns: 1fr;
+    }
+    
+    .grafica-card {
+        padding: 15px;
+    }
+    
+    .grafica-contenedor {
+        height: 180px;
+    }
+}
+.modo-oscuro-toggle-sidebar {
+    padding: 12px 16px;
+    border-top: 1px solid var(--border-color);
+}
+
+.modo-oscuro-toggle-sidebar .nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    color: var(--text-secondary);
+}
+
+.modo-oscuro-toggle-sidebar .switch {
+    margin-left: auto;
+}

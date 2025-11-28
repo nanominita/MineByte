@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MINEBYTE - Sistema de Seguridad Minera</title>
+  <link rel="stylesheet" href="css/panel_principal.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    .usuario-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .usuario-header span {
+      font-weight: 600;
+      color: white;
+    }
+
+    .usuario-header button {
+      background-color: #ff4d4d;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="contenedor-principal">
+    <!-- Header -->
+    <header class="header-principal">
+      <div class="logo-principal">
+        <div class="logo-icono-principal">
+          <img src="Logo bodrio.png" alt="MINEBYTE" />
+        </div>
+        <h1>MINEBYTE</h1>
+      </div>
+      <nav class="nav-principal">
+        <a href="#inicio">Inicio</a>
+        <a href="#solucion">Solución</a>
+        <a href="#caracteristicas">Características</a>
+        <a href="#contacto">Contacto</a>
+        <div id="usuario-header" class="usuario-header">
+          <!-- Aquí se insertará el nombre o el botón de sesión -->
+        </div>
+      </nav>
+    </header>
+
+    <!-- Sección Hero -->
+    <section class="hero" id="inicio">
+      <div class="hero-contenido">
+        <div class="hero-texto">
+          <h2>Seguridad Minera Inteligente</h2>
+          <p>Monitoreo en tiempo real, alertas preventivas y control remoto para proteger a los trabajadores y optimizar operaciones mineras.</p>
+          <div class="hero-acciones">
+            <a href="login.html" class="btn btn-primario">Acceder al Sistema</a>
+            <a href="#solucion" class="btn btn-secundario">Conocer Más</a>
+          </div>
+        </div>
+        <div class="hero-imagen">
+          <div class="imagen-placeholder">
+            <i class="fas fa-hard-hat"></i>
+            <p>Visualización del Sistema</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección Solución -->
+    <section class="seccion solucion" id="solucion">
+      <div class="contenedor-seccion">
+        <h2>Nuestra Solución</h2>
+        <p class="subtitulo-seccion">Sistema integral de monitoreo y seguridad para la industria minera</p>
+        
+        <div class="caracteristicas-grid">
+          <div class="tarjeta-caracteristica">
+            <div class="caracteristica-icono">
+              <i class="fas fa-microchip"></i>
+            </div>
+            <h3>Sensores Inteligentes</h3>
+            <p>Monitoreo en tiempo real de gases, temperatura, humedad, vibraciones y nivel de agua.</p>
+          </div>
+          
+          <div class="tarjeta-caracteristica">
+            <div class="caracteristica-icono">
+              <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3>Alertas Preventivas</h3>
+            <p>Sistema de alertas visuales y auditivas diferenciadas para cada tipo de riesgo.</p>
+          </div>
+          
+          <div class="tarjeta-caracteristica">
+            <div class="caracteristica-icono">
+              <i class="fas fa-robot"></i>
+            </div>
+            <h3>Control Remoto</h3>
+            <p>Operación a distancia de maquinaria en situaciones de peligro para los trabajadores.</p>
+          </div>
+          
+          <div class="tarjeta-caracteristica">
+            <div class="caracteristica-icono">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <h3>Análisis de Datos</h3>
+            <p>Generación de estadísticas y reportes para la toma de decisiones informadas.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección Características -->
+    <section class="seccion caracteristicas" id="caracteristicas">
+      <div class="contenedor-seccion">
+        <h2>Características del Sistema</h2>
+        <p class="subtitulo-seccion">Tecnología avanzada para una minería más segura y eficiente</p>
+        <div class="caracteristicas-lista">
+          <div class="caracteristica-item">
+            <div class="caracteristica-info">
+              <h3>Monitoreo en Tiempo Real</h3>
+              <p>Seguimiento continuo de las condiciones ambientales y estructurales de la mina con actualizaciones cada 3 segundos.</p>
+            </div>
+            <div class="caracteristica-imagen">
+              <div class="imagen-placeholder">
+                <i class="fas fa-desktop"></i>
+              </div>
+            </div>
+          </div>
+          
+          <div class="caracteristica-item inverso">
+            <div class="caracteristica-imagen">
+              <div class="imagen-placeholder">
+                <i class="fas fa-bell"></i>
+              </div>
+            </div>
+            <div class="caracteristica-info">
+              <h3>Sistema de Alertas Multi-nivel</h3>
+              <p>Notificaciones diferenciadas por nivel de riesgo (Crítico, Moderado, Bajo) con protocolos de acción específicos.</p>
+            </div>
+          </div>
+          
+          <div class="caracteristica-item">
+            <div class="caracteristica-info">
+              <h3>Control de Acceso por Roles</h3>
+              <p>Gestión de permisos diferenciados para Administradores, Supervisores y Trabajadores según sus responsabilidades.</p>
+            </div>
+            <div class="caracteristica-imagen">
+              <div class="imagen-placeholder">
+                <i class="fas fa-users-cog"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección Contacto -->
+    <section class="seccion contacto" id="contacto">
+      <div class="contenedor-seccion">
+        <h2>Contacto</h2>
+        <p class="subtitulo-seccion">¿Tienes preguntas sobre nuestro sistema? Contáctanos</p>
+        
+        <div class="contacto-contenido">
+          <div class="info-contacto">
+            <div class="info-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <div>
+                <h4>Ubicación</h4>
+                <p>Universidad Tecnológica de Nezahualcóyotl</p>
+              </div>
+            </div>
+            
+            <div class="info-item">
+              <i class="fas fa-envelope"></i>
+              <div>
+                <h4>Email</h4>
+                <p>info@minebyte.com</p>
+              </div>
+            </div>
+            
+            <div class="info-item">
+              <i class="fas fa-phone"></i>
+              <div>
+                <h4>Teléfono</h4>
+                <p>+52 55 1234 5678</p>
+              </div>
+            </div>
+          </div>
+          
+          <form class="formulario-contacto">
+            <div class="campo-formulario">
+              <input type="text" placeholder="Nombre" required>
+            </div>
+            <div class="campo-formulario">
+              <input type="email" placeholder="Email" required>
+            </div>
+            <div class="campo-formulario">
+              <input type="text" placeholder="Asunto" required>
+            </div>
+            <div class="campo-formulario">
+              <textarea placeholder="Mensaje" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primario">Enviar Mensaje</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="contenedor-footer">
+        <div class="footer-info">
+          <div class="logo-footer">
+            <img src="nanotech.png" alt="Nanotech" >
+            <h3>Nanotech</h3>
+          </div>
+          <p>Sistema de desarrollo de software a medida para la industria </p>
+        </div>
+        
+        <div class="footer-enlaces">
+          <h4>Enlaces Rápidos</h4>
+          <a href="#inicio">Inicio</a>
+          <a href="#solucion">Solución</a>
+          <a href="#caracteristicas">Características</a>
+          <a href="#contacto">Contacto</a>
+        </div>
+        
+        <div class="footer-redes">
+          <h4>Síguenos</h4>
+          <div class="iconos-redes">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-copyright">
+        <p>&copy; 2025 nanotech. Todos los derechos reservados.</p>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Navegación suave
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+    
+  </script>
+  <script>
+    // Navegación suave
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // Mostrar nombre y botón de cerrar sesión si hay sesión activa
+    const usuarioHeader = document.getElementById("usuario-header");
+    const nombreUsuario = localStorage.getItem("nombreUsuario");
+
+    if (nombreUsuario) {
+      usuarioHeader.innerHTML = `
+        <span>👤 ${nombreUsuario}</span>
+        <button id="btn-cerrar-sesion">Cerrar Sesión</button>
+      `;
+
+      document.getElementById("btn-cerrar-sesion").addEventListener("click", () => {
+        localStorage.clear();
+        location.reload();
+      });
+    } else {
+      usuarioHeader.innerHTML = `
+        <a href="login.html" class="btn btn-primario">Iniciar Sesión</a>
+      `;
+    }
+  </script>
+</body>
+</html>
+</body>
+</html>

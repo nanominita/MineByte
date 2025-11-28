@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel - MINEBYTE</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/panel.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Barra lateral -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <div class="logo-text">
+          <h2>MINEBYTE</h2>
+        </div>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <a href="administrador_panel.html" class="nav-item active">
+          <i class="fas fa-tachometer-alt"></i>
+          <span>Panel</span>
+        </a>
+        <a href="minas.html" class="nav-item">
+          <i class="fas fa-hard-hat"></i>
+          <span>Minas</span>
+        </a>
+        <a href="sensores.html" class="nav-item">
+          <i class="fas fa-microchip"></i>
+          <span>Sensores</span>
+        </a>
+        <a href="alertas.html" class="nav-item">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span>Alertas</span>
+        </a>
+        <a href="usuarios.html" class="nav-item">
+          <i class="fas fa-users"></i>
+          <span>Usuarios</span>
+        </a>
+        <a href="acciones.html" class="nav-item">
+          <i class="fas fa-tasks"></i>
+          <span>Acciones</span>
+        </a>
+        <a href="cuenta.html" class="nav-item">
+          <i class="fas fa-user-cog"></i>
+          <span>Cuenta</span>
+        </a>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <div class="user-avatar" id="avatar-iniciales">JP</div>
+          <div class="user-details">
+            <div class="user-name" id="usuario-nombre">Cargando...</div>
+            <div class="user-role" id="usuario-rol">Cargando...</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+      <div class="panel-header">
+        <div class="panel-titulo">
+          <h1>Panel de Supervisión - Sistema MINERVA</h1>
+          <p class="panel-subtitulo" id="fecha-actual">Cargando fecha...</p>
+        </div>
+        <div class="panel-acciones">
+          <button class="btn btn-outline" onclick="actualizarPanel()">
+            <i class="fas fa-sync-alt mr-2"></i>
+            Actualizar
+          </button>
+          <button class="btn btn-primary" onclick="exportarDatos()">
+            <i class="fas fa-download mr-2"></i>
+            Exportar
+          </button>
+        </div>
+      </div>
+
+      <!-- Sección de estadísticas globales -->
+      <section class="estadisticas-panel">
+        <div class="estadistica-panel minas">
+          <div class="estadistica-icono-panel">
+            <i class="fas fa-hard-hat"></i>
+          </div>
+          <div class="estadistica-contenido-panel">
+            <h3>Minas activas</h3>
+            <div class="dato" id="minas-activas">0</div>
+          </div>
+        </div>
+        <div class="estadistica-panel sensores">
+          <div class="estadistica-icono-panel">
+            <i class="fas fa-microchip"></i>
+          </div>
+          <div class="estadistica-contenido-panel">
+            <h3>Sensores operando</h3>
+            <div class="dato" id="sensores-operando">0</div>
+          </div>
+        </div>
+        <div class="estadistica-panel alertas">
+          <div class="estadistica-icono-panel">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <div class="estadistica-contenido-panel">
+            <h3>Alertas activas</h3>
+            <div class="dato" id="alertas-activas">0</div>
+          </div>
+        </div>
+        <div class="estadistica-panel acciones">
+          <div class="estadistica-icono-panel">
+            <i class="fas fa-tasks"></i>
+          </div>
+          <div class="estadistica-contenido-panel">
+            <h3>Acciones correctivas</h3>
+            <div class="dato" id="acciones-correctivas">0</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sensores en una mina -->
+      <section class="monitoreo-sensores">
+        <div class="seccion-titulo-panel">
+          <h2 id="titulo-sensores">Monitoreo de dispositivos</h2>
+          <div class="filtro-mina-panel">
+            <label for="select-mina-panel">Mina:</label>
+            <select id="select-mina-panel" class="form-control" onchange="cambiarMina()">
+              <option value="">Cargando minas...</option>
+            </select>
+          </div>
+        </div>
+        
+        <section class="tarjetas-sensores-panel" id="tarjetas-sensores">
+          <div class="sensor-card-panel temperatura">
+            <div class="sensor-icon-panel">
+              <i class="fas fa-thermometer-half"></i>
+            </div>
+            <div class="sensor-info-panel">
+              <div class="sensor-nombre-panel">Sensor de Temperatura</div>
+              <div class="sensor-valor-panel">26.3°C</div>
+              <div class="sensor-tiempo-panel">Actualizado hace 2 min</div>
+            </div>
+          </div>
+          
+          <div class="sensor-card-panel humedad">
+            <div class="sensor-icon-panel">
+              <i class="fas fa-tint"></i>
+            </div>
+            <div class="sensor-info-panel">
+              <div class="sensor-nombre-panel">Sensor de Humedad</div>
+              <div class="sensor-valor-panel">72%</div>
+              <div class="sensor-tiempo-panel">Actualizado hace 5 min</div>
+            </div>
+          </div>
+          
+          <div class="sensor-card-panel gas">
+            <div class="sensor-icon-panel">
+              <i class="fas fa-wind"></i>
+            </div>
+            <div class="sensor-info-panel">
+              <div class="sensor-nombre-panel">Sensor de Gas Metano</div>
+              <div class="sensor-valor-panel">120 ppm</div>
+              <div class="sensor-tiempo-panel">Actualizado hace 1 min</div>
+            </div>
+          </div>
+          
+          <div class="sensor-card-panel agua">
+            <div class="sensor-icon-panel">
+              <i class="fas fa-water"></i>
+            </div>
+            <div class="sensor-info-panel">
+              <div class="sensor-nombre-panel">Sensor de Nivel Agua</div>
+              <div class="sensor-valor-panel">45%</div>
+              <div class="sensor-tiempo-panel">Actualizado hace 3 min</div>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- Últimas alertas registradas -->
+      <section class="alertas-recientes">
+        <div class="seccion-titulo-panel">
+          <h2>Alertas recientes</h2>
+          <button class="btn btn-texto" onclick="window.location.href='alertas.html'">
+            Ver todas <i class="fas fa-arrow-right ml-2"></i>
+          </button>
+        </div>
+        
+        <div class="table-container">
+          <table class="tabla-alertas">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Dispositivo</th>
+                <th>Mina</th>
+                <th>Tipo</th>
+                <th>Nivel</th>
+                <th>Estado</th>
+                <th>Fecha y hora</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tabla-alertas-body">
+              <tr>
+                <td colspan="8" class="text-center p-4">Cargando alertas...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+ <script>
+  const nombre = localStorage.getItem("nombreUsuario") || "Usuario";
+  const rol = localStorage.getItem("tipoCuenta") || "Sin rol";
+
+  const iniciales = nombre
+    .split(" ")
+    .map(p => p[0])
+    .join("")
+    .toUpperCase();
+
+  document.getElementById("usuario-nombre").textContent = nombre;
+  document.getElementById("usuario-rol").textContent = rol.charAt(0).toUpperCase() + rol.slice(1);
+  document.getElementById("avatar-iniciales").textContent = iniciales;
+</script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC7YUiNYU2I4FzJL2IJzpdybFc7iD9ZYVw",
+  authDomain: "minebyte51m.firebaseapp.com",
+  projectId: "minebyte51m",
+  storageBucket: "minebyte51m.firebasestorage.app",
+  messagingSenderId: "612192107615",
+  appId: "1:612192107615:web:6c374d21d070496779afea",
+  measurementId: "G-TB1JGW4CX6",
+  databaseURL: "https://minebyte51m-default-rtdb.firebaseio.com"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const rtdb = getDatabase(app);
+
+const idUsuario = localStorage.getItem("idUsuario");
+
+/* ===========================
+      MINAS ACTIVAS
+=========================== */
+async function cargarMinas() {
+  const refMinas = collection(db, "minas");
+  const snap = await getDocs(refMinas);
+
+  let total = 0;
+  const select = document.getElementById("select-mina-panel");
+
+  snap.forEach(doc => {
+    const data = doc.data();
+
+    if (data.id_administrador == idUsuario && data.status == "Activa") {
+      total++;
+
+      const option = document.createElement("option");
+      option.value = data.nombre;
+      option.textContent = data.nombre;
+      select.appendChild(option);
+    }
+  });
+
+  document.getElementById("minas-activas").textContent = total;
+}
+
+/* ===================================
+        SENSORES EN TIEMPO REAL
+=================================== */
+function actualizarTarjetasSensores() {
+  const sensoresRef = ref(rtdb, "/sensores");
+
+  onValue(sensoresRef, snapshot => {
+    const sensores = snapshot.val() || {};
+
+    const temp = sensores.temperatura;
+    if (temp) {
+      document.querySelector(".temperatura .sensor-valor-panel").textContent =
+        `${temp.nivel ?? temp.valor ?? ""}`;
+      document.querySelector(".temperatura .sensor-tiempo-panel").textContent =
+        `Actualizado ${temp.timestamp}`;
+    }
+
+    if (temp) {
+      document.querySelector(".humedad .sensor-valor-panel").textContent =
+        `${temp.humedad ?? ""}%`;
+      document.querySelector(".humedad .sensor-tiempo-panel").textContent =
+        `Actualizado ${temp.timestamp}`;
+    }
+
+    const agua = sensores.agua;
+    if (agua) {
+      document.querySelector(".agua .sensor-valor-panel").textContent =
+        `${agua.distancia}%`;
+      document.querySelector(".agua .sensor-tiempo-panel").textContent =
+        `Actualizado ${agua.timestamp}`;
+    }
+
+    const gas = sensores.metano;
+    if (gas) {
+      document.querySelector(".gas .sensor-valor-panel").textContent =
+        `${gas.nivel} ppm`;
+      document.querySelector(".gas .sensor-tiempo-panel").textContent =
+        `Actualizado ${gas.timestamp}`;
+    }
+  });
+}
+
+/* ===================================
+        ALERTAS EN TIEMPO REAL
+=================================== */
+function escucharAlertas() {
+  const sensores = ref(rtdb, "/sensores");
+
+  onValue(sensores, snapshot => {
+    const datos = snapshot.val() || {};
+    let total = 0;
+
+    for (const sensor in datos) {
+      const s = datos[sensor];
+
+      if (
+        s.alerta ||
+        s.alerta_agua ||
+        s.alerta_metano ||
+        s.alerta_temperatura ||
+        s.alerta_humedad
+      ) {
+        total++;
+      }
+    }
+
+    document.getElementById("alertas-activas").textContent = total;
+    document.getElementById("acciones-correctivas").textContent = total;
+  });
+}
+
+/* INICIO */
+window.addEventListener("DOMContentLoaded", () => {
+  cargarMinas();
+  escucharAlertas();
+  actualizarTarjetasSensores();
+
+  // AUTO-REFRESH 5s
+  setInterval(actualizarTarjetasSensores, 5000);
+});
+</script>
+
+
+</body>
+</html>

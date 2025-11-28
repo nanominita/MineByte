@@ -1,0 +1,704 @@
+/* === Variables CSS con nueva paleta de colores === */
+:root {
+  --color-primario: #2f5e69;
+  --color-primario-hover: #1e4a54;
+  --color-secundario: #3c3c3c;
+  --color-secundario-hover: #2a2a2a;
+  --color-fondo: #f4f2ed;
+  --color-fondo-tarjeta: #ffffff;
+  --color-fondo-hover: #f8f7f3;
+  --color-borde: #e0ddd5;
+  --color-texto: #2c2c2c;
+  --color-texto-secundario: #6b6b6b;
+  --color-exito: #27ae60;
+  --color-alerta: #f39c12;
+  --color-peligro: #e74c3c;
+  --color-info: #3498db;
+  --sombra: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --sombra-hover: 0 6px 16px rgba(0, 0, 0, 0.12);
+  --radio-borde: 8px;
+  --transicion: all 0.3s ease;
+}
+
+/* === Reset y configuración general === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+/* === Estilos específicos para la página de login === */
+.pagina-login {
+  background: linear-gradient(135deg, var(--color-secundario) 0%, #0e1516 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  animation: fadeInPage 0.8s ease-out;
+}
+
+.contenedor-login {
+  width: 100%;
+  max-width: 1000px;
+  animation: scaleIn 0.6s ease-out 0.3s both;
+}
+
+.login-contenido {
+  background: var(--color-fondo-tarjeta);
+  border-radius: var(--radio-borde);
+  box-shadow: var(--sombra-hover);
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 600px;
+  animation: slideUpFade 0.8s ease-out 0.4s both;
+}
+
+/* Panel lateral izquierdo */
+.login-lateral {
+  background: linear-gradient(135deg, var(--color-primario) 0%, #1e4a54 100%);
+  color: white;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  animation: slideInLeft 0.7s ease-out 0.5s both;
+}
+
+.login-lateral::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  transform: rotate(30deg);
+  animation: shimmer 8s infinite linear;
+}
+
+.login-logo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 2;
+  animation: fadeInUp 0.6s ease-out 0.7s both;
+}
+
+.login-logo .logo-icono {
+  width: 50px;
+  height: 50px;
+  border-radius: var(--radio-borde);
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 8px;
+  animation: pulse 2s infinite;
+}
+
+.login-logo .logo-icono img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  transition: transform 0.5s ease;
+}
+
+.login-logo:hover .logo-icono img {
+  transform: rotate(10deg) scale(1.1);
+}
+
+.login-logo h2 {
+  color: white;
+  font-weight: 700;
+  font-size: 1.8rem;
+}
+
+.login-info {
+  position: relative;
+  z-index: 2;
+  animation: fadeInUp 0.6s ease-out 0.8s both;
+}
+
+.login-info h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.login-info p {
+  opacity: 0.9;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.caracteristicas-login {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
+  animation: fadeInUp 0.6s ease-out 0.9s both;
+}
+
+.caracteristica {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  transition: transform 0.3s ease;
+}
+
+.caracteristica:hover {
+  transform: translateX(5px);
+}
+
+.caracteristica i {
+  width: 30px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.caracteristica:hover i {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+.caracteristica span {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+/* Panel derecho del formulario */
+.login-formulario {
+  padding: 3rem;
+  display: flex;
+  align-items: center;
+  background: var(--color-fondo-tarjeta);
+  animation: slideInRight 0.7s ease-out 0.5s both;
+}
+
+.formulario-contenido {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  animation: fadeIn 0.8s ease-out 0.7s both;
+}
+
+.formulario-contenido h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--color-primario);
+  text-align: center;
+  animation: textPop 0.5s ease-out 0.9s both;
+}
+
+.formulario-contenido > p {
+  color: var(--color-texto-secundario);
+  margin-bottom: 2rem;
+  text-align: center;
+  line-height: 1.5;
+  animation: fadeIn 0.6s ease-out 1s both;
+}
+
+/* Formulario de login */
+#form-login {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  animation: fadeInUp 0.6s ease-out 1.1s both;
+}
+
+.campo-formulario {
+  position: relative;
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+.campo-formulario:nth-child(1) {
+  animation-delay: 1.2s;
+}
+
+.campo-formulario:nth-child(2) {
+  animation-delay: 1.3s;
+}
+
+.campo-formulario label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--color-texto);
+  font-size: 0.9rem;
+}
+
+.campo-formulario input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 3rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde);
+  background: var(--color-fondo);
+  color: var(--color-texto);
+  font-size: 1rem;
+  transition: var(--transicion);
+}
+
+.campo-formulario input:focus {
+  outline: none;
+  border-color: var(--color-primario);
+  box-shadow: 0 0 0 3px rgba(47, 94, 105, 0.1);
+  background: var(--color-fondo-tarjeta);
+  transform: translateY(-2px);
+}
+
+.icono-campo {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(50%);
+  color: var(--color-texto-secundario);
+  font-size: 1rem;
+  transition: var(--transicion);
+}
+
+.campo-formulario:focus-within .icono-campo {
+  color: var(--color-primario);
+  transform: translateY(50%) scale(1.1);
+}
+
+/* Opciones adicionales del formulario */
+.opciones-login {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  margin-top: -0.5rem;
+  animation: fadeIn 0.6s ease-out 1.4s both;
+}
+
+.recordar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  color: var(--color-texto-secundario);
+  transition: var(--transicion);
+}
+
+.recordar:hover {
+  color: var(--color-primario);
+}
+
+.recordar input {
+  margin: 0;
+  width: auto;
+}
+
+.olvido-contrasena {
+  color: var(--color-primario);
+  text-decoration: none;
+  transition: var(--transicion);
+  font-weight: 500;
+  position: relative;
+}
+
+.olvido-contrasena::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--color-primario);
+  transition: width 0.3s ease;
+}
+
+.olvido-contrasena:hover {
+  color: var(--color-primario-hover);
+}
+
+.olvido-contrasena:hover::after {
+  width: 100%;
+}
+
+/* Botones */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: var(--radio-borde);
+  font-weight: 500;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: var(--transicion);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.btn-primario {
+  background: var(--color-primario);
+  color: white;
+}
+
+.btn-primario:hover {
+  background: var(--color-primario-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-hover);
+}
+
+.btn-secundario {
+  background: var(--color-secundario);
+  color: white;
+}
+
+.btn-secundario:hover {
+  background: var(--color-secundario-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-hover);
+}
+
+.btn-login {
+  width: 100%;
+  padding: 0.9rem;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  font-weight: 600;
+  animation: fadeInUp 0.6s ease-out 1.5s both;
+}
+
+/* Sección de demo login */
+.demo-login {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-borde);
+  text-align: center;
+  animation: fadeIn 0.6s ease-out 1.6s both;
+}
+
+.demo-login p {
+  margin-bottom: 1rem;
+  color: var(--color-texto-secundario);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.botones-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  animation: fadeInUp 0.6s ease-out 1.7s both;
+}
+
+.botones-demo .btn {
+  width: 100%;
+  justify-content: center;
+  font-size: 0.85rem;
+  padding: 0.6rem 1rem;
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+.botones-demo .btn:nth-child(1) {
+  animation-delay: 1.8s;
+}
+
+.botones-demo .btn:nth-child(2) {
+  animation-delay: 1.9s;
+}
+
+.botones-demo .btn i {
+  font-size: 0.8rem;
+}
+
+/* Estados de validación */
+.campo-formulario input:invalid:not(:focus):not(:placeholder-shown) {
+  border-color: var(--color-peligro);
+  animation: shake 0.5s ease-in-out;
+}
+
+.campo-formulario input:valid:not(:focus):not(:placeholder-shown) {
+  border-color: var(--color-exito);
+}
+
+/* Loading state */
+.btn.loading {
+  position: relative;
+  color: transparent;
+}
+
+.btn.loading::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Mensajes de error */
+.mensaje-error {
+  color: var(--color-peligro);
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  display: none;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.campo-formulario.error .mensaje-error {
+  display: block;
+}
+
+.campo-formulario.error input {
+  border-color: var(--color-peligro);
+  animation: shake 0.5s ease-in-out;
+}
+
+/* === ANIMACIONES PERSONALIZADAS === */
+
+/* Animación de entrada de la página */
+@keyframes fadeInPage {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Animación de escalado al entrar */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Animación de deslizamiento hacia arriba con fade */
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animación de entrada desde la izquierda */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Animación de entrada desde la derecha */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Animación de fade in */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Animación de fade in con desplazamiento hacia arriba */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animación de texto que aparece con efecto pop */
+@keyframes textPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  70% {
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Animación de pulso sutil */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.2);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+  }
+}
+
+/* Animación de temblor para errores */
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-5px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(5px);
+  }
+}
+
+/* Efecto de brillo en el fondo del panel lateral */
+@keyframes shimmer {
+  0% {
+    transform: rotate(30deg) translateX(-100%);
+  }
+  100% {
+    transform: rotate(30deg) translateX(200%);
+  }
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  .pagina-login {
+    padding: 1rem;
+  }
+  
+  .login-contenido {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  .login-lateral {
+    padding: 2rem;
+    min-height: 300px;
+  }
+  
+  .login-formulario {
+    padding: 2rem;
+  }
+  
+  .formulario-contenido {
+    max-width: 100%;
+  }
+  
+  .opciones-login {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  
+  .caracteristicas-login {
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-lateral {
+    padding: 1.5rem;
+  }
+  
+  .login-formulario {
+    padding: 1.5rem;
+  }
+  
+  .formulario-contenido h2 {
+    font-size: 1.5rem;
+  }
+  
+  .botones-demo .btn {
+    font-size: 0.8rem;
+    padding: 0.5rem 0.75rem;
+  }
+  
+  .login-logo {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+  
+  .login-logo h2 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Mejoras de accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus visible para mejor accesibilidad */
+.btn:focus-visible,
+.campo-formulario input:focus-visible {
+  outline: 2px solid var(--color-primario);
+  outline-offset: 2px;
+}
